@@ -93,10 +93,22 @@ def _section_already_registered(ctx: object, section_id: str) -> bool:
     skip every profile after the first. An unrecognised context shape falls through
     to registering, i.e. the previous behaviour; a False can never be returned for a
     manager that does hold the section, so this cannot suppress a needed registration.
+
+    The attributes read here (``_manager``, ``_system_prompt_sections``,
+    ``_plugin_context``) are Hermes internals, not plugin API. If Hermes renames
+    them the check returns False and the duplicate registration -- and its warning
+    -- come back; nothing is lost.
     """
     candidates = [ctx]
     inner = getattr(ctx, "_plugin_context", None)  # memory-provider Collector path
     if callable(inner):
+        # The collector builds this same context to forward the registration
+        # itself (hermes plugins/memory `_ProviderCollector._plugin_context`),
+        # so calling it first costs nothing extra. Any failure here must not
+        # abort `register()` -- that would fail the whole plugin load -- and it
+        # is not hidden: the registration below proceeds, the collector's
+        # forward builds the same context, fails the same way, and Hermes logs
+        # it (`Memory provider ... failed to register_system_prompt_section`).
         try:
             candidates.append(inner())
         except Exception:

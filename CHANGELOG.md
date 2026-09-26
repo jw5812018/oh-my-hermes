@@ -4,6 +4,18 @@ All notable changes will be documented here.
 
 ## Unreleased
 
+- **The awareness section registers once per plugin manager, without a warning
+  on every session.** `register()` runs on both the plugin loader and the
+  memory-provider loader, so the `omh.awareness` system-prompt section was
+  offered twice per process; Hermes rejected the second and its memory-provider
+  collector logged `failed to register_system_prompt_section ... already
+  registered by plugin 'omh'` on every session init. The plugin now checks the
+  context's own manager (per `HERMES_HOME`, so each profile of a multiplex
+  gateway still registers its own) and skips a section that manager already
+  holds. The check reads Hermes internals; if they change, the duplicate attempt
+  and its warning come back and nothing else does. Reported and first fixed by
+  @kssd in #1887.
+
 - **Korean work requests get a skill candidate line too.** The per-turn line
   ranked ASCII words only, so an all-Korean request never got one. The
   generated shortlist index now also carries the syllable bigrams of the
