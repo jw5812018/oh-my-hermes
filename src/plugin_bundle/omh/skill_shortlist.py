@@ -458,8 +458,10 @@ def skill_candidates_for_turn(
     None for a message that names its own workflow (the route hint's direct
     invocation). The ASCII line stands down for small talk, a conversational
     request, or a direct factual question; a message it does not admit is
-    then read for Korean (`hangul_skill_candidates`), whose own floor keeps
-    everyday Korean out.
+    then read for Korean (`hangul_skill_candidates`). The conversational
+    check reads ASCII words only, so it does not filter Korean: everyday
+    Korean is kept out by the Hangul score and anchor floor alone, with no
+    kind-based check for a Korean joke or venting request.
     """
     if not message.strip():
         return ()
