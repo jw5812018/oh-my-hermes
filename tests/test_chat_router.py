@@ -82,6 +82,36 @@ _REPINNED_SPECIALIST_DOMAIN_SKILLS_ROUTE_POSITIVE_PROMPTS_AND_PRESERVE = frozens
 _REPINNED_DIRECT_TRANSLATION_FALLBACK_DOES_NOT_STEAL_WORKFLOW_REQUESTS = frozenset(
     {
         "Translate this locale file into Korean and upload it to our TMS.",
+        # 2026-09-26: deliverable-package guard measured 0 right / 1 wrong.
+        "Translate this report into PDF and attach it to Slack.",
+    }
+)
+# Re-pinned 2026-09-26 (guard trust needs a measured 3:1 record): the guard
+# that carried each row below measured under 3 right per wrong as a winner on
+# the tuning set, so the row asks with its expected skill first.
+_REPINNED_OPERATOR_SURFACE_GOOD_EXAMPLES_ROUTE_WITHOUT_SKILL_NAMES = frozenset(
+    {
+        # research-brief guard, 0 right / 1 wrong.
+        "compare three onboarding analytics vendors using customer notes and confidence gaps.",
+        # scheduled-ops guard, 0 right / 1 wrong.
+        "Every Monday remind the team to review stale issues.",
+        # voice-operator guard, 0 right / 1 wrong.
+        "release before lunch, check risky parts from mobile.",
+        "Voice note: release risky. check fast and ask before action.",
+        # deliverable-package guard, 0 right / 1 wrong.
+        "turn this research into PPT and PDF with attachment status.",
+    }
+)
+# ops-observability guard, 1 right / 1 wrong.
+_REPINNED_PUBLIC_PLUGIN_REPO_STATUS_QUERIES_STILL_ROUTE_TO_OPS_OBSERVABILITY = frozenset(
+    {
+        "mem9-hermes-plugin dashboard metrics status",
+        "remnic dashboard metrics status",
+        "scope-recall dashboard metrics status",
+        "hermes-plugins dashboard metrics status",
+        "evey-council dashboard metrics status",
+        "evey-delegate-model dashboard metrics status",
+        "x-twitter-scraper dashboard metrics status",
     }
 )
 _REPINNED_ULTRAPERF_POSITIVE_MATRIX_ROUTES_TO_ULTRAPERF = frozenset(
@@ -1878,10 +1908,11 @@ Latest runtime run: 20260625T090917585910Z-loop-goal-loop-8b5bec.
         for message, skill in cases:
             with self.subTest(message=message):
                 decision = route_chat_message(message, source="discord")
+                repinned = message in _REPINNED_OPERATOR_SURFACE_GOOD_EXAMPLES_ROUTE_WITHOUT_SKILL_NAMES
 
-                self.assertEqual(decision["action"], "dispatch")
-                self.assertEqual(decision["selected_skill"], skill)
-                self.assertEqual(decision["selected_harness"], primary_harness_for_skill(skill))
+                self.assertTrue(dispatched_or_asked(decision, allow_clarify=repinned))
+                self.assertEqual(route_owner(decision, allow_clarify=repinned), skill)
+                self.assertEqual(route_owner_harness(decision, allow_clarify=repinned), primary_harness_for_skill(skill))
                 self.assertEqual(decision["recommendations"][0]["skill"], skill)
                 self.assertEqual(decision["confidence"], "high")
 
@@ -2700,7 +2731,13 @@ Latest runtime run: 20260625T090917585910Z-loop-goal-loop-8b5bec.
                 decision = route_chat_message(message, source="discord")
                 recommendations = recommend_skills(message, limit=3)
 
-                self.assertEqual(decision["selected_skill"], "ops-observability-card")
+                self.assertEqual(
+                    route_owner(
+                        decision,
+                        allow_clarify=message in _REPINNED_PUBLIC_PLUGIN_REPO_STATUS_QUERIES_STILL_ROUTE_TO_OPS_OBSERVABILITY,
+                    ),
+                    "ops-observability-card",
+                )
                 self.assertEqual(decision["recommendations"][0]["next_action"], "prepare_ops_observability_card")
                 self.assertIn("guard:ops_observability", decision["recommendations"][0]["matched"])
                 self.assertEqual(recommendations[0]["skill"], "ops-observability-card")
@@ -3963,7 +4000,9 @@ selected_workflow=ultraprocess
         build_failure = route_chat_message("npm test failed with this stack trace, find root cause", source="discord")
 
         self.assertEqual(coding["selected_skill"], "ultrawork")
-        self.assertEqual(file_task["selected_skill"], "workspace-file-operator")
+        # Re-pinned 2026-09-26: the workspace-file-operator guard measured
+        # 2 right / 1 wrong, under 3:1, so this row asks with it first.
+        self.assertEqual(route_owner(file_task, allow_clarify=True), "workspace-file-operator")
         self.assertEqual(build_failure["selected_skill"], "build-failure-triage")
         self.assertNotEqual(coding["selected_skill"], "command-operator")
         self.assertNotEqual(file_task["selected_skill"], "command-operator")

@@ -19,11 +19,19 @@ from __future__ import annotations
 import unittest
 
 from omh.routing.chat import route_chat_message
-from _route_owner import route_owner
+from _route_owner import dispatched_or_asked, route_owner
 
 # Rows re-pinned to a clarify by shortlist-first routing (dispatch only on
 # strong evidence). Only these rows may pass as a clarify whose first
 # candidate is the expected skill; every other row must still dispatch.
+# Re-pinned 2026-09-26: the research-brief guard measured 0 right / 1 wrong
+# as a winner on the tuning set, under 3:1, so these rows ask with it first.
+_REPINNED_RESEARCH_PROMPTS_DISPATCH_TO_EXPECTED_SKILL = frozenset(
+    {
+        "compare onboarding analytics vendors",
+        "compare three onboarding analytics vendors using customer notes and confidence gaps",
+    }
+)
 _REPINNED_NEGATIVE_CONTROLS_STAY_OUT_OF_THE_RESEARCH_LANE = frozenset(
     {
         "evaluate agent performance on the benchmark suite",
@@ -102,8 +110,9 @@ class ResearchRoutingMatrixTest(unittest.TestCase):
         for prompt, expected_skill in DISPATCH_CASES:
             with self.subTest(prompt=prompt):
                 decision = route_chat_message(prompt)
-                self.assertEqual(decision.get("action"), "dispatch", decision)
-                self.assertEqual(decision.get("selected_skill"), expected_skill, decision)
+                repinned = prompt in _REPINNED_RESEARCH_PROMPTS_DISPATCH_TO_EXPECTED_SKILL
+                self.assertTrue(dispatched_or_asked(decision, allow_clarify=repinned), decision)
+                self.assertEqual(route_owner(decision, allow_clarify=repinned), expected_skill, decision)
 
     def test_research_shaped_prompts_never_surface_false_candidates(self) -> None:
         for prompt, forbidden in NO_FALSE_CANDIDATE_CASES:

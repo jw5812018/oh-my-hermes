@@ -16,6 +16,13 @@ from _route_owner import route_owner
 # Rows re-pinned to a clarify by shortlist-first routing (dispatch only on
 # strong evidence). Only these rows may pass as a clarify whose first
 # candidate is the expected skill; every other row must still dispatch.
+# Re-pinned 2026-09-26: the research-brief guard measured 0 right / 1 wrong
+# as a winner on the tuning set, under 3:1, so this row asks with it first.
+_REPINNED_NEIGHBOURING_REVIEW_LANES_KEEP_THEIR_REQUESTS = frozenset(
+    {
+        "the biggest threat to our launch date is the vendor contract",
+    }
+)
 _REPINNED_THE_AGENT_RUNTIME_SURFACE_STAYS_WITH_THE_SAFETY_REVIEW = frozenset(
     {
         "review the prompt injection and tool permission risks in this agent before we run it",
@@ -184,7 +191,10 @@ class ApplicationThreatModelRoutingTests(unittest.TestCase):
                     self.assertNotEqual(route["action"], "dispatch")
                     self.assertNotEqual(route_owner(route), "application-threat-model")
                     continue
-                self.assertEqual(route_owner(route), expected)
+                self.assertEqual(
+                    route_owner(route, allow_clarify=message in _REPINNED_NEIGHBOURING_REVIEW_LANES_KEEP_THEIR_REQUESTS),
+                    expected,
+                )
 
 
 class ApplicationThreatModelChatCardTests(unittest.TestCase):

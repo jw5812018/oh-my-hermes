@@ -5525,11 +5525,21 @@ ROUTING_GUARD_RULES = (
 
 # Which guards may decide a dispatch on their own (#dispatch-evidence).
 #
-# Rule for the label: a guard is trusted when its predicate matches an intent
-# shape AND its measured record as a winner on the tuning set supports it
-# (right >= wrong, or at most one wrong). A guard whose record does not is
-# either narrowed until it does or marked context-only; the reasons below
-# carry the record where it decided the label.
+# Rule for the label: a guard with a measured record as the dispatched winner
+# on the tuning set is trusted only when that record is at least three right
+# for every wrong, with at least one right. A guard with no measured record
+# keeps the label its intent shape earned (owner decision, 2026-09-26: making
+# every unmeasured guard context-only cost two skills their natural reach for
+# no measured gain). One exception keeps a measured guard under 3:1 trusted:
+# demoting it would break a product quality floor (routing accuracy, the
+# known-lanes baseline, grounded score, route-hint alignment, chat-card and
+# common-request coverage, the ulw-equivalence digests), or it removes no
+# measured wrong dispatch while moving canonical pins; the reason names which.
+# Every reason below says which rule decided it. The earlier bar (right >= wrong, or at most one wrong) left held-out English
+# wrong dispatch at 22.7%, largely guard-carried. This is a trust-policy
+# change, not a predicate change: every guard still boosts and reorders the
+# field, and a context-only winner clarifies with itself first on the
+# shortlist.
 #
 # A guard boost reorders the field either way. What this table decides is
 # whether the boost alone may DISPATCH a skill whose own trigger evidence is
@@ -5543,68 +5553,68 @@ ROUTING_GUARD_RULES = (
 GUARD_TRUSTED = "trusted"
 GUARD_CONTEXT_ONLY = "context_only"
 GUARD_DISPATCH_TRUST: dict[str, tuple[str, str]] = {
-    "adversarial_qa_before_generic_help": (GUARD_TRUSTED, "hostile/missing-path testing named as the task"),
-    "agent_board_before_generic_clarification": (GUARD_TRUSTED, "an imperative to coordinate named agents or a board"),
-    "app_delivery_loop_before_generic_plan": (GUARD_TRUSTED, "an explicit idea-to-release path"),
-    "browser_operator_before_generic_clarification": (GUARD_TRUSTED, "an imperative to operate a browser page"),
-    "cleanup_refactor_before_workflow_learning": (GUARD_TRUSTED, "a cleanup verb on code with regression-test language"),
-    "coding_handoff_status_before_clarify": (GUARD_TRUSTED, "a named executor plus a status request"),
-    "coding_progress_status_before_clarify": (GUARD_TRUSTED, "a named executor plus a progress request"),
-    "command_operator_before_generic_terminal_or_coding": (GUARD_TRUSTED, "an imperative to run a terminal or package command"),
-    "connector_operator_before_generic_api_or_command": (GUARD_TRUSTED, "an action on a named external app"),
-    "content_operator_before_generic_text_transform": (GUARD_TRUSTED, "an imperative to write publish-ready copy"),
-    "contract_redline_before_generic_review": (GUARD_TRUSTED, "redline or negotiation verbs on a contract"),
-    "credential_rotation_before_toolbelt_readiness": (GUARD_TRUSTED, "rotate or revoke on an existing credential"),
-    "cto_loop_before_generic_loop": (GUARD_TRUSTED, "an explicit PM/dev/QA leadership loop"),
-    "deep_interview_before_generic_plan": (GUARD_TRUSTED, "an explicit interview-before-planning request"),
-    "deliverable_package_for_file_attachment": (GUARD_TRUSTED, "a generated file plus an attach or delivery action"),
-    "delivery_cycle_before_research_only": (GUARD_TRUSTED, "an explicit PR or delivery-cycle completion request"),
-    "dependency_upgrade_before_generic_plan": (GUARD_TRUSTED, "an upgrade verb on a named framework version"),
-    "direct_coding_task_before_fallback": (GUARD_TRUSTED, "an imperative code-edit verb plus a code object"),
-    "doctor_health_before_skill_catalog": (GUARD_TRUSTED, "OMH install or setup health named as the problem"),
-    "durable_research_goal_before_wiki": (GUARD_TRUSTED, "keep-researching-until-closed shape"),
-    "executor_runtime_readiness_before_generic_advice": (GUARD_TRUSTED, "an executor named with a can-it-run or connect question; narrowed off comparisons and session inventories"),
-    "feedback_before_coding": (GUARD_TRUSTED, "a customer or user report of a defect handed over for triage; narrowed off replies, filing, test commands, and system memory"),
-    "gateway_intent_before_feedback_triage": (GUARD_TRUSTED, "messenger thread or delivery policy named as the task"),
-    "generated_artifact_provenance_before_deliverable_package": (GUARD_TRUSTED, "asks whether a change touches a generated file"),
-    "github_event_ops_before_generic_planning": (GUARD_TRUSTED, "an explicit PR, CI, or issue-to-PR event"),
-    "github_issue_intake_before_event_ops_or_feedback": (GUARD_TRUSTED, "an imperative to file a new issue"),
-    "greenfield_build_before_generic_picker": (GUARD_CONTEXT_ONLY, "fires on build plus the absence of a named existing surface"),
-    "harness_session_inventory_before_toolbelt_or_observability": (GUARD_TRUSTED, "an inventory request over named harness sessions"),
-    "hermes_coding_team_before_generic_clarification": (GUARD_TRUSTED, "Hermes-owned coding with workers or worktrees"),
-    "img_summary_before_materials_or_delivery": (GUARD_TRUSTED, "an image or card summary named as the output"),
-    "jit_learn_before_generic_research_or_review": (GUARD_TRUSTED, "what-to-learn-now for a live blocker"),
-    "live_info_operator_before_generic_current_facts": (GUARD_TRUSTED, "a live topic (weather, rate, score) with a live cue (now, today, latest)"),
-    "long_document_reading_before_paper_or_materials": (GUARD_TRUSTED, "a read or summarize verb on a document past one read budget"),
-    "loop_goal_before_generic_clarification": (GUARD_TRUSTED, "a loopable product or OSS goal"),
-    "materials_package_before_report_or_clarify": (GUARD_TRUSTED, "a production verb on a document format (turn into slides, export a pdf)"),
-    "media_input_operator_before_generic_content_or_direct": (GUARD_TRUSTED, "an audio, video, or recording input named as the source"),
-    "memory_curation_before_generic_clarification": (GUARD_TRUSTED, "an imperative to clean up Hermes memory"),
-    "memory_new_before_existing_memory_curation": (GUARD_TRUSTED, "an imperative to capture a new durable fact"),
-    "memory_provider_lifecycle_before_toggle_or_file_operation": (GUARD_TRUSTED, "enable, switch, or export a named memory provider"),
-    "missed_workflow_operating_record_recovery": (GUARD_TRUSTED, "explicit missed-OMH feedback about operating records"),
-    "missed_workflow_research_recovery": (GUARD_TRUSTED, "explicit missed-OMH feedback about research work"),
-    "named_coding_agent_delivery_before_advisor_or_feedback": (GUARD_TRUSTED, "a named coding agent plus a delivery verb"),
-    "omh_quality_improvement_loop_before_feedback_triage": (GUARD_TRUSTED, "OMH self-improvement named as the task"),
-    "ops_observability_before_generic_loop": (GUARD_TRUSTED, "a status or metrics request over a named runtime surface; measured 1 right / 1 wrong"),
-    "paper_learning_before_materials_or_research_ops": (GUARD_TRUSTED, "a paper named as the thing to explain"),
-    "persistent_completion_before_board_status": (GUARD_TRUSTED, "finish-until-pass-or-block shape"),
-    "point_in_time_web_before_live_lookup": (GUARD_TRUSTED, "an explicit as-of date or archived capture"),
-    "product_shaping_before_ops_review": (GUARD_TRUSTED, "a product goal stated with an explicit do-not-know-where-to-start cue"),
-    "provider_profile_posture_before_toolbelt_readiness": (GUARD_TRUSTED, "explicit provider or profile posture request"),
-    "release_claim_review_before_file_lookup": (GUARD_TRUSTED, "release claims versus code named for review"),
-    "research_brief_before_wiki": (GUARD_TRUSTED, "a comparison with evidence gaps named as the output"),
-    "research_department_before_generic_scheduled_ops": (GUARD_TRUSTED, "a recurring research operation shape"),
-    "risky_refactor_before_cleanup": (GUARD_TRUSTED, "risky refactor named as the change"),
-    "safe_feature_change_before_generic_plan": (GUARD_TRUSTED, "a safe feature change named as the change"),
-    "scheduled_ops_blueprint_before_reliability_or_research": (GUARD_TRUSTED, "a cadence plus a scheduled action"),
-    "source_finder_before_generic_web_research": (GUARD_CONTEXT_ONLY, "fires on source and paper nouns"),
-    "strategy_brief_before_generic_plan": (GUARD_TRUSTED, "a decide-whether or prioritize decision shape"),
-    "toolbelt_readiness_before_generic_or_visual_fallback": (GUARD_TRUSTED, "a named tool or credential plus a missing or setup cue; narrowed off bare setup, api, provider, and model words"),
-    "voice_operator_before_generic_clarification": (GUARD_TRUSTED, "an explicit voice-note or mobile surface cue"),
-    "web_research_before_process": (GUARD_CONTEXT_ONLY, "fires on web, source, or current-evidence nouns"),
-    "workflow_learning_before_skill_management": (GUARD_TRUSTED, "learn-from-this-workflow named as the task"),
-    "workspace_file_operator_before_materials_or_coding": (GUARD_TRUSTED, "an imperative file or folder operation"),
+    "adversarial_qa_before_generic_help": (GUARD_TRUSTED, "hostile/missing-path testing named as the task; no measured record as a winner, keeps its shape label"),
+    "agent_board_before_generic_clarification": (GUARD_TRUSTED, "an imperative to coordinate named agents or a board; no measured record as a winner, keeps its shape label"),
+    "app_delivery_loop_before_generic_plan": (GUARD_TRUSTED, "an explicit idea-to-release path; no measured record as a winner, keeps its shape label"),
+    "browser_operator_before_generic_clarification": (GUARD_CONTEXT_ONLY, "an imperative to operate a browser page; measured 1 right / 1 wrong"),
+    "cleanup_refactor_before_workflow_learning": (GUARD_TRUSTED, "a cleanup verb on code with regression-test language; no measured record as a winner, keeps its shape label"),
+    "coding_handoff_status_before_clarify": (GUARD_CONTEXT_ONLY, "a named executor plus a status request; measured 0 right / 1 wrong"),
+    "coding_progress_status_before_clarify": (GUARD_TRUSTED, "a named executor plus a progress request; no measured record as a winner, keeps its shape label"),
+    "command_operator_before_generic_terminal_or_coding": (GUARD_TRUSTED, "an imperative to run a terminal or package command; measured 2 right / 0 wrong"),
+    "connector_operator_before_generic_api_or_command": (GUARD_TRUSTED, "an action on a named external app; measured 1 right / 1 wrong; kept trusted: demoting it removes no measured wrong dispatch and moves canonical pins"),
+    "content_operator_before_generic_text_transform": (GUARD_TRUSTED, "an imperative to write publish-ready copy; no measured record as a winner, keeps its shape label"),
+    "contract_redline_before_generic_review": (GUARD_TRUSTED, "redline or negotiation verbs on a contract; no measured record as a winner, keeps its shape label"),
+    "credential_rotation_before_toolbelt_readiness": (GUARD_TRUSTED, "rotate or revoke on an existing credential; no measured record as a winner, keeps its shape label"),
+    "cto_loop_before_generic_loop": (GUARD_TRUSTED, "an explicit PM/dev/QA leadership loop; no measured record as a winner, keeps its shape label"),
+    "deep_interview_before_generic_plan": (GUARD_TRUSTED, "an explicit interview-before-planning request; no measured record as a winner, keeps its shape label"),
+    "deliverable_package_for_file_attachment": (GUARD_CONTEXT_ONLY, "a generated file plus an attach or delivery action; measured 0 right / 1 wrong"),
+    "delivery_cycle_before_research_only": (GUARD_TRUSTED, "an explicit PR or delivery-cycle completion request; no measured record as a winner, keeps its shape label"),
+    "dependency_upgrade_before_generic_plan": (GUARD_TRUSTED, "an upgrade verb on a named framework version; no measured record as a winner, keeps its shape label"),
+    "direct_coding_task_before_fallback": (GUARD_TRUSTED, "an imperative code-edit verb plus a code object; measured 0 right / 1 wrong; kept trusted: demoting it breaks the routing-accuracy floors, the known-lanes baseline, and the ulw-equivalence digest"),
+    "doctor_health_before_skill_catalog": (GUARD_TRUSTED, "OMH install or setup health named as the problem; no measured record as a winner, keeps its shape label"),
+    "durable_research_goal_before_wiki": (GUARD_TRUSTED, "keep-researching-until-closed shape; no measured record as a winner, keeps its shape label"),
+    "executor_runtime_readiness_before_generic_advice": (GUARD_TRUSTED, "an executor named with a can-it-run or connect question; narrowed off comparisons and session inventories; no measured record as a winner, keeps its shape label"),
+    "feedback_before_coding": (GUARD_TRUSTED, "a customer or user report of a defect handed over for triage; narrowed off replies, filing, test commands, and system memory; measured 1 right / 1 wrong; kept trusted: demoting it breaks the known-lanes baseline and route-hint alignment"),
+    "gateway_intent_before_feedback_triage": (GUARD_TRUSTED, "messenger thread or delivery policy named as the task; measured 2 right / 0 wrong"),
+    "generated_artifact_provenance_before_deliverable_package": (GUARD_TRUSTED, "asks whether a change touches a generated file; no measured record as a winner, keeps its shape label"),
+    "github_event_ops_before_generic_planning": (GUARD_TRUSTED, "an explicit PR, CI, or issue-to-PR event; measured 0 right / 1 wrong; kept trusted: demoting it removes no measured wrong dispatch and moves canonical pins"),
+    "github_issue_intake_before_event_ops_or_feedback": (GUARD_TRUSTED, "an imperative to file a new issue; no measured record as a winner, keeps its shape label"),
+    "greenfield_build_before_generic_picker": (GUARD_CONTEXT_ONLY, "fires on build plus the absence of a named existing surface; no measured record as a winner, keeps its shape label"),
+    "harness_session_inventory_before_toolbelt_or_observability": (GUARD_TRUSTED, "an inventory request over named harness sessions; measured 1 right / 0 wrong"),
+    "hermes_coding_team_before_generic_clarification": (GUARD_TRUSTED, "Hermes-owned coding with workers or worktrees; no measured record as a winner, keeps its shape label"),
+    "img_summary_before_materials_or_delivery": (GUARD_TRUSTED, "an image or card summary named as the output; measured 1 right / 0 wrong"),
+    "jit_learn_before_generic_research_or_review": (GUARD_TRUSTED, "what-to-learn-now for a live blocker; no measured record as a winner, keeps its shape label"),
+    "live_info_operator_before_generic_current_facts": (GUARD_TRUSTED, "a live topic (weather, rate, score) with a live cue (now, today, latest); measured 1 right / 0 wrong"),
+    "long_document_reading_before_paper_or_materials": (GUARD_TRUSTED, "a read or summarize verb on a document past one read budget; measured 1 right / 0 wrong"),
+    "loop_goal_before_generic_clarification": (GUARD_TRUSTED, "a loopable product or OSS goal; no measured record as a winner, keeps its shape label"),
+    "materials_package_before_report_or_clarify": (GUARD_TRUSTED, "a production verb on a document format (turn into slides, export a pdf); measured 0 right / 1 wrong; kept trusted: demoting it breaks the common-request coverage floor"),
+    "media_input_operator_before_generic_content_or_direct": (GUARD_TRUSTED, "an audio, video, or recording input named as the source; measured 1 right / 0 wrong"),
+    "memory_curation_before_generic_clarification": (GUARD_TRUSTED, "an imperative to clean up Hermes memory; measured 0 right / 1 wrong; kept trusted: demoting it breaks the ulw-equivalence digest"),
+    "memory_new_before_existing_memory_curation": (GUARD_TRUSTED, "an imperative to capture a new durable fact; no measured record as a winner, keeps its shape label"),
+    "memory_provider_lifecycle_before_toggle_or_file_operation": (GUARD_TRUSTED, "enable, switch, or export a named memory provider; no measured record as a winner, keeps its shape label"),
+    "missed_workflow_operating_record_recovery": (GUARD_TRUSTED, "explicit missed-OMH feedback about operating records; no measured record as a winner, keeps its shape label"),
+    "missed_workflow_research_recovery": (GUARD_TRUSTED, "explicit missed-OMH feedback about research work; no measured record as a winner, keeps its shape label"),
+    "named_coding_agent_delivery_before_advisor_or_feedback": (GUARD_TRUSTED, "a named coding agent plus a delivery verb; no measured record as a winner, keeps its shape label"),
+    "omh_quality_improvement_loop_before_feedback_triage": (GUARD_TRUSTED, "OMH self-improvement named as the task; no measured record as a winner, keeps its shape label"),
+    "ops_observability_before_generic_loop": (GUARD_CONTEXT_ONLY, "a status or metrics request over a named runtime surface; measured 1 right / 1 wrong"),
+    "paper_learning_before_materials_or_research_ops": (GUARD_TRUSTED, "a paper named as the thing to explain; measured 2 right / 1 wrong; kept trusted: demoting it breaks the routing-accuracy floors and the ulw-equivalence digest"),
+    "persistent_completion_before_board_status": (GUARD_TRUSTED, "finish-until-pass-or-block shape; no measured record as a winner, keeps its shape label"),
+    "point_in_time_web_before_live_lookup": (GUARD_TRUSTED, "an explicit as-of date or archived capture; no measured record as a winner, keeps its shape label"),
+    "product_shaping_before_ops_review": (GUARD_TRUSTED, "a product goal stated with an explicit do-not-know-where-to-start cue; measured 0 right / 1 wrong; kept trusted: demoting it breaks the grounded-score floor"),
+    "provider_profile_posture_before_toolbelt_readiness": (GUARD_TRUSTED, "explicit provider or profile posture request; no measured record as a winner, keeps its shape label"),
+    "release_claim_review_before_file_lookup": (GUARD_TRUSTED, "release claims versus code named for review; no measured record as a winner, keeps its shape label"),
+    "research_brief_before_wiki": (GUARD_CONTEXT_ONLY, "a comparison with evidence gaps named as the output; measured 0 right / 1 wrong"),
+    "research_department_before_generic_scheduled_ops": (GUARD_TRUSTED, "a recurring research operation shape; measured 1 right / 1 wrong; kept trusted: demoting it breaks the grounded-score and chat-card coverage floors"),
+    "risky_refactor_before_cleanup": (GUARD_TRUSTED, "risky refactor named as the change; no measured record as a winner, keeps its shape label"),
+    "safe_feature_change_before_generic_plan": (GUARD_TRUSTED, "a safe feature change named as the change; no measured record as a winner, keeps its shape label"),
+    "scheduled_ops_blueprint_before_reliability_or_research": (GUARD_CONTEXT_ONLY, "a cadence plus a scheduled action; measured 0 right / 1 wrong"),
+    "source_finder_before_generic_web_research": (GUARD_CONTEXT_ONLY, "fires on source and paper nouns; no measured record as a winner, keeps its shape label"),
+    "strategy_brief_before_generic_plan": (GUARD_TRUSTED, "a decide-whether or prioritize decision shape; no measured record as a winner, keeps its shape label"),
+    "toolbelt_readiness_before_generic_or_visual_fallback": (GUARD_TRUSTED, "a named tool or credential plus a missing or setup cue; narrowed off bare setup, api, provider, and model words; measured 2 right / 0 wrong"),
+    "voice_operator_before_generic_clarification": (GUARD_CONTEXT_ONLY, "an explicit voice-note or mobile surface cue; measured 0 right / 1 wrong"),
+    "web_research_before_process": (GUARD_CONTEXT_ONLY, "fires on web, source, or current-evidence nouns; no measured record as a winner, keeps its shape label"),
+    "workflow_learning_before_skill_management": (GUARD_TRUSTED, "learn-from-this-workflow named as the task; no measured record as a winner, keeps its shape label"),
+    "workspace_file_operator_before_materials_or_coding": (GUARD_CONTEXT_ONLY, "an imperative file or folder operation; measured 2 right / 1 wrong"),
 }
 
 

@@ -324,7 +324,10 @@ def count_metrics() -> tuple[CountMetric, ...]:
             # The Jev skills add seven: sentences that name Jev as a model, a
             # setting, or among options, or talk about its docs, pricing page,
             # or question format, none of which addresses Jev.
-            expected=312,
+            # Strict guard trust adds one: a question about what a Playwright
+            # task costs, the negative half of browser-operator's own-phrase
+            # intervention case.
+            expected=313,
             sites=(
                 "tests/test_cli.py",
                 "tests/test_hermes_ux_quality.py",
@@ -388,7 +391,10 @@ def count_metrics() -> tuple[CountMetric, ...]:
             # jev-ask, and sentences about Jev (descriptive, negated,
             # configuration, a maintainer's mention of a skill name, an
             # explicit non-Jev invocation) that keep their ordinary owner.
-            expected=485,
+            # Strict guard trust adds one: a Playwright task reaching
+            # browser-operator on its own phrase, once its guard-carried case
+            # became a clarify.
+            expected=486,
             sites=(
                 "tests/test_cli.py",
                 "tests/test_hermes_ux_quality.py",

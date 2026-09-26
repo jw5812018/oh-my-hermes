@@ -2475,6 +2475,17 @@ ROUTING_PRECISION_CASES: tuple[RoutingPrecisionCase, ...] = (
         "answer_directly",
         "direct_answer",
     ),
+    # The negative half of `playwright-task-reaches-browser-operator`: the
+    # same trigger phrase inside a question about the tool is not a request
+    # to operate a page.
+    RoutingPrecisionCase(
+        "playwright-task-cost-question-is-not-a-browser-run",
+        "A question about what a Playwright task costs does not start a browser run",
+        "what does a playwright task cost in CI minutes?",
+        "answer_directly",
+        "direct_answer",
+        "browser-operator",
+    ),
 )
 
 
@@ -4325,14 +4336,18 @@ ROUTING_INTERVENTION_CASES: tuple[RoutingInterventionCase, ...] = (
     ),
     # The other half of that split: telemetry about operations, not about a
     # provider choice, keeps the card it always had.
+    # Re-pinned to clarify (2026-09-26): the guard that carried this dispatch
+    # measured under 3 right per wrong on the tuning set, so it is context-only
+    # and the route asks; the declined winner, ops-observability-card, leads the shortlist.
     RoutingInterventionCase(
         "loop-run-telemetry-stays-ops-observability",
         "Token, cost, and latency of operations still reach the telemetry card",
         "show token cost and latency for the last week of loop runs",
-        "dispatch",
+        "clarify",
+        "oh-my-hermes",
+        "answer_clarification",
+        "clarification",
         "ops-observability-card",
-        "prepare_ops_observability_card",
-        "ops_observability",
     ),
     RoutingInterventionCase(
         "memory-provider-switch-readiness",
@@ -4976,14 +4991,18 @@ ROUTING_INTERVENTION_CASES: tuple[RoutingInterventionCase, ...] = (
         "live_incident_record",
     ),
     # The blocker must not cost `browser-operator` its own turf.
+    # Re-pinned to clarify (2026-09-26): the guard that carried this dispatch
+    # measured under 3 right per wrong on the tuning set, so it is context-only
+    # and the route asks; the declined winner, browser-operator, leads the shortlist.
     RoutingInterventionCase(
         "a-page-operation-still-reaches-browser-operator",
         "A real page operation still reaches the browser lane",
         "open the checkout page in staging and click through the form",
-        "dispatch",
+        "clarify",
+        "oh-my-hermes",
+        "answer_clarification",
+        "clarification",
         "browser-operator",
-        "prepare_browser_operator_card",
-        "browser_operator",
     ),
     # `inference-serving` carried "serve this model" and "serve the model".
     # A person names the size, which puts it between the two words, so no
@@ -6516,14 +6535,17 @@ ROUTING_INTERVENTION_CASES: tuple[RoutingInterventionCase, ...] = (
         "plan",
         "ask",
     ),
+    # Re-pinned to clarify (2026-09-26): the guard that carried this dispatch
+    # measured under 3 right per wrong on the tuning set, so it is context-only
+    # and the route asks; the declined winner, research-brief, leads the shortlist.
     RoutingInterventionCase(
         "vendor-choice-naming-jev-not-jev-ask",
         "Choosing between vendors that include Jev is not a typed Jev ask",
         "help me decide between two vendors, jev or openrouter",
-        "dispatch",
-        "research-brief",
-        "run_hermes_research",
-        "web_research",
+        "clarify",
+        "oh-my-hermes",
+        "answer_clarification",
+        "clarification",
         "research-brief",
     ),
     RoutingInterventionCase(
@@ -6566,14 +6588,17 @@ ROUTING_INTERVENTION_CASES: tuple[RoutingInterventionCase, ...] = (
         "toolbelt_readiness",
         "toolbelt-readiness",
     ),
+    # Re-pinned to clarify (2026-09-26): the guard that carried this dispatch
+    # measured under 3 right per wrong on the tuning set, so it is context-only
+    # and the route asks; the declined winner, ops-observability-card, leads the shortlist.
     RoutingInterventionCase(
         "jev-production-latency-stays-observability",
         "Describing Jev in production is an observability question, not a Jev ask",
         "we use jev in production and latency doubled, why?",
-        "dispatch",
-        "ops-observability-card",
-        "prepare_ops_observability_card",
-        "ops_observability",
+        "clarify",
+        "oh-my-hermes",
+        "answer_clarification",
+        "clarification",
         "ops-observability-card",
     ),
     RoutingInterventionCase(
@@ -6958,14 +6983,17 @@ ROUTING_INTERVENTION_CASES: tuple[RoutingInterventionCase, ...] = (
         "automation_blueprint",
         "automation-blueprint",
     ),
+    # Re-pinned to clarify (2026-09-26): the guard that carried this dispatch
+    # measured under 3 right per wrong on the tuning set, so it is context-only
+    # and the route asks; the declined winner, automation-blueprint, leads the shortlist.
     RoutingInterventionCase(
         "named-cadence-reaches-the-recurring-surface-comparison",
         "A named cadence reaches the same lane, where the schedule beats the other three",
         "every weekday morning check the error budget and post a digest",
-        "dispatch",
-        "automation-blueprint",
-        "prepare_scheduled_ops_blueprint",
-        "automation_blueprint",
+        "clarify",
+        "oh-my-hermes",
+        "answer_clarification",
+        "clarification",
         "automation-blueprint",
     ),
     RoutingInterventionCase(
@@ -7166,14 +7194,17 @@ ROUTING_INTERVENTION_CASES: tuple[RoutingInterventionCase, ...] = (
         "handoff",
         "ultrawork",
     ),
+    # Re-pinned to clarify (2026-09-26): the guard that carried this dispatch
+    # measured under 3 right per wrong on the tuning set, so it is context-only
+    # and the route asks; the declined winner, automation-blueprint, leads the shortlist.
     RoutingInterventionCase(
         "recurring-weekly-check-still-schedules",
         "`recurring` beside a cadence and a check is still a scheduled job",
         "set up a recurring weekly check of our uptime report",
-        "dispatch",
-        "automation-blueprint",
-        "prepare_scheduled_ops_blueprint",
-        "automation_blueprint",
+        "clarify",
+        "oh-my-hermes",
+        "answer_clarification",
+        "clarification",
         "automation-blueprint",
     ),
     RoutingInterventionCase(
@@ -7251,15 +7282,33 @@ ROUTING_INTERVENTION_CASES: tuple[RoutingInterventionCase, ...] = (
         "clarification",
         "ultrawork",
     ),
+    # Re-pinned to clarify (2026-09-26): the guard that carried this dispatch
+    # measured under 3 right per wrong on the tuning set, so it is context-only
+    # and the route asks; the declined winner, automation-blueprint, leads the shortlist.
     RoutingInterventionCase(
         "recurring-issue-recap-reaches-the-scheduler",
         "A recap of new GitHub issues on a cadence is a scheduled job, not issue filing",
         "put together a recap of new GitHub issues every morning",
+        "clarify",
+        "oh-my-hermes",
+        "answer_clarification",
+        "clarification",
+        "automation-blueprint",
+    ),
+    # `browser-operator`'s natural reach had rested on one guard-carried case,
+    # which asks now that the guard's measured record is under 3:1. This one
+    # reaches it through its own multi-word trigger ("playwright task"), not its
+    # name and not a guard; its negative half is
+    # `playwright-task-cost-question-is-not-a-browser-run`.
+    RoutingInterventionCase(
+        "playwright-task-reaches-browser-operator",
+        "A Playwright task on a live page reaches the browser lane on its own phrase",
+        "run a playwright task that logs in and screenshots the dashboard",
         "dispatch",
-        "automation-blueprint",
-        "prepare_scheduled_ops_blueprint",
-        "automation_blueprint",
-        "automation-blueprint",
+        "browser-operator",
+        "prepare_browser_operator_card",
+        "browser_operator",
+        "browser-operator",
     ),
 )
 
