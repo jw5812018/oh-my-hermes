@@ -3,11 +3,14 @@
 "b":0.75,
 "k1":1.2
 },
+"hangul_stopwords":"그거 너무 도와 들어 떻게 만들 보여 세요 싶어 아서 알려 어떤 어떻 어서 어주 오늘 우리 이거 있어 저거 주세 지금 하고 하는 해서 해주",
 "schema_version":"omh_skill_shortlist_index/v1",
 "score_floor":5.0,
 "skills":[
 {
 "anchors":"belong card chat discord don fallback fit hint know oh om owned picker plain preview right role slack telegram unsur wrapper",
+"hangul":"경계 기록 상태 증거",
+"hangul_anchors":"경계 기록 상태 증거",
 "label":"omh-routing",
 "name":"oh-my-hermes",
 "situation":"Choosing among OMH skills for a request",
@@ -22,6 +25,8 @@
 },
 {
 "anchors":"catalog chain instruction job meta prefix router several slash",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-meta-router",
 "name":"meta-router",
 "situation":"Message opens with /omh and a task",
@@ -34,6 +39,8 @@
 },
 {
 "anchors":"10k engineer exhaustion feedback goal good horizon improv iterat known long met never permission profil resum star stop token until yet",
+"hangul":"계속 고갈 까지 끝까 끝날 돌려 드백 때까 루프 목표 장기 토큰 피드",
+"hangul_anchors":"계속 고갈 까지 끝까 끝날 돌려 드백 때까 루프 목표 장기 토큰 피드",
 "label":"ulw-loop",
 "name":"loop",
 "situation":"Ambitious project goal needing many build cycles",
@@ -47,6 +54,8 @@
 },
 {
 "anchors":"agree align alignment domain drift glossary inconsistent languag mean name naming repo term terminology ulw",
+"hangul":"",
+"hangul_anchors":"",
 "label":"ulw-context",
 "name":"context",
 "situation":"Repository vocabulary unclear or inconsistent",
@@ -61,6 +70,8 @@
 },
 {
 "anchors":"ambiguous assum clarify deep don figur fuzzy guess idea interview requirement sure yet",
+"hangul":"개발 기획 드럽 럽게 모호 발자 보딩 부드 사이 온보 요청 제품 호한 획자",
+"hangul_anchors":"개발 기획 드럽 럽게 모호 발자 보딩 부드 사이 온보 요청 제품 호한 획자",
 "label":"ulw-interview",
 "name":"deep-interview",
 "situation":"Vague, underspecified request",
@@ -74,6 +85,8 @@
 },
 {
 "anchors":"applicabl apply blocker book cours creator gap highest hit immediat immediately jit knowledg learn leverag payoff podcast problem recommend resourc right specific target topic unblock week",
+"hangul":"강의 당장 도움 되는 리에 리프 목표 브리 스트 에이 용할 이터 적용 주제 캐스 크리 팟캐 학습",
+"hangul_anchors":"강의 당장 도움 되는 리에 리프 목표 브리 에이 용할 이터 적용 주제 캐스 크리 팟캐 학습",
 "label":"omh-jit-learn",
 "name":"jit-learn",
 "situation":"Blocked on a project by a knowledge gap",
@@ -88,6 +101,8 @@
 },
 {
 "anchors":"accept big coordinat cycl end fan finish green high implement integrat job lane modul multi multipl parallel part persistent process red refactor several singl split throughput ultrawork ulw until worker",
+"hangul":"",
+"hangul_anchors":"",
 "label":"ulw-work",
 "name":"ultrawork",
 "situation":"Accepted plan awaiting implementation",
@@ -102,6 +117,8 @@
 },
 {
 "anchors":"chos claud cli codex compos delegation instruction job maestro ulw",
+"hangul":"넘기 드오 롬프 실행 에이 오프 외부 위임 이전 전트 준비 코딩 트에 프롬 프트 핸드 행기",
+"hangul_anchors":"넘기 드오 롬프 실행 에이 오프 외부 위임 이전 전트 코딩 트에 프롬 프트 핸드 행기",
 "label":"ulw-maestro",
 "name":"maestro",
 "situation":"Coding owner already chosen, handoff pending",
@@ -116,6 +133,8 @@
 },
 {
 "anchors":"architectur art autoresearch built choic comparabl conflict critic deep dig dossier durabl exhaustiv goal ground literatur other paper pre prior recent referenc saturation solv spec study survey",
+"hangul":"검토 고객 구현 근거 깊게 논문 드백 딥리 런스 레퍼 리서 문들 문헌 서치 소스 심층 오픈 조사 참고 퍼런 픈소 피드",
+"hangul_anchors":"검토 고객 구현 근거 깊게 논문 드백 딥리 런스 레퍼 리서 문들 문헌 서치 소스 심층 오픈 조사 참고 퍼런 픈소 피드",
 "label":"ulw-research",
 "name":"research",
 "situation":"Deep dive before a decision",
@@ -131,6 +150,8 @@
 },
 {
 "anchors":"best citation cite current diversity documentation fresh gap guidanc internet latest library official onlin practic pric retrieval say scan search still today true upstream version week",
+"hangul":"검색 색해 서치 웹서 인터 자료 찾아 최신 출처 터넷",
+"hangul_anchors":"검색 색해 서치 웹서 인터 자료 찾아 최신 출처 터넷",
 "label":"omh-web-research",
 "name":"web-research",
 "situation":"Current technical or business fact to cite from web",
@@ -146,6 +167,8 @@
 },
 {
 "anchors":"capability catalog documentation explain oh put stor system together",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-docs",
 "name":"product-docs",
 "situation":"Explaining OMH itself",
@@ -161,6 +184,8 @@
 },
 {
 "anchors":"acquisition area arxiv benchmark collect dataset download evaluat finder gather github intak link list oss paper presentation public repo slid spec worth",
+"hangul":"공개 깃허 논문 데이 링크 문서 발표 스펙 이터 자료 장소 저장 찾아 출처 터셋 표자 허브 후보",
+"hangul_anchors":"공개 깃허 논문 데이 링크 문서 발표 스펙 이터 자료 장소 저장 찾아 출처 터셋 표자 허브 후보",
 "label":"omh-source-finder",
 "name":"source-finder",
 "situation":"Gathering candidate papers, datasets, or repos",
@@ -176,6 +201,8 @@
 },
 {
 "anchors":"business comparison competitiv competitor customer data feedback landscap market pric say scan search sizing trend vendor",
+"hangul":"고객 근거 데이 드백 서치 이터 자료 조사 추세 피드",
+"hangul_anchors":"고객 근거 데이 드백 서치 이터 자료 조사 추세 피드",
 "label":"omh-research-brief",
 "name":"research-brief",
 "situation":"Business question on market, competitors, pricing",
@@ -190,6 +217,8 @@
 },
 {
 "anchors":"analyst briefer competitor daily department inbox incom knowledg market monitor notebooklm obsidian ops paper regular roundup scout stor storag summarizer synthesis vault weekly",
+"hangul":"경쟁 도구 리서 리핑 부서 브리 서치 수집 요약 운영 장소 쟁사 저장 조직 지식 합성",
+"hangul_anchors":"경쟁 도구 리서 리핑 부서 브리 서치 수집 운영 장소 쟁사 저장 조직 지식 합성",
 "label":"omh-research-department",
 "name":"research-department",
 "situation":"Recurring market or topic research",
@@ -205,6 +234,8 @@
 },
 {
 "anchors":"arxiv attach beginner breakdown detail don drop easy expert explain explainer explanation learn level losing moderat paper pdf simpl term understand walk walkthrough",
+"hangul":"가급 난이 내용 논문 당한 말고 명해 문가 설명 쉽게 아주 이도 이지 적당 전문 줄이 해설",
+"hangul_anchors":"가급 난이 내용 논문 당한 말고 명해 문가 설명 쉽게 아주 이도 이지 적당 전문 줄이 해설",
 "label":"omh-paper-learning",
 "name":"paper-learning",
 "situation":"Paper or paper PDF to understand",
@@ -220,6 +251,8 @@
 },
 {
 "anchors":"bet big con contractor direction enterpris headcount hire leadership memo option outsourc pro quarter smb strategic strategy take tradeoff",
+"hangul":"결정 다음 더십 리더 메모 사결 옵션 의사 전략 정리 회의",
+"hangul_anchors":"결정 다음 더십 리더 메모 사결 옵션 의사 전략 정리 회의",
 "label":"omh-decide",
 "name":"strategy-brief",
 "situation":"Team or business decision between options",
@@ -234,6 +267,8 @@
 },
 {
 "anchors":"agenda discuss discussion leadership meet rais sync templat tomorrow topic",
+"hangul":"결정 기록 논의 아젠 정할 젠다 주제 준비 질문 템플 플릿 회의",
+"hangul_anchors":"결정 기록 논의 아젠 정할 젠다 주제 질문 템플 플릿 회의",
 "label":"omh-meeting-brief",
 "name":"meeting-brief",
 "situation":"Upcoming work meeting that lacks an agenda",
@@ -249,6 +284,8 @@
 },
 {
 "anchors":"bug cluster complain complaint customer feedback group payment prioritiz sort stor them trend triag",
+"hangul":"결제 고객 기능 드백 모아 백을 버그 분류 불만 실패 오류 요청 이슈 제보 피드",
+"hangul_anchors":"결제 고객 기능 드백 모아 백을 버그 분류 불만 실패 오류 요청 이슈 제보 피드",
 "label":"omh-feedback-triage",
 "name":"feedback-triage",
 "situation":"Unsorted customer feedback and bug reports",
@@ -264,6 +301,8 @@
 },
 {
 "anchors":"actual against analysis budget burn cash cfo end expens explain financ forecast month quarter rate runway varianc vs",
+"hangul":"대비 마감 분석 실적 예산 월마 재무",
+"hangul_anchors":"대비 마감 분석 실적 예산 월마 재무",
 "label":"omh-finance-analysis",
 "name":"finance-analysis",
 "situation":"Company budget overrun, cash risk, or close issue",
@@ -278,6 +317,8 @@
 },
 {
 "anchors":"debrief description fair fairly hire hiring interview job onboard ops peopl recruit role scorecard structur",
+"hangul":"가표 계획 면접 보자 비교 채용 평가 후보",
+"hangul_anchors":"가표 계획 면접 보자 비교 채용 평가 후보",
 "label":"omh-people-ops",
 "name":"people-ops",
 "situation":"Company hiring or HR process to structure",
@@ -292,6 +333,8 @@
 },
 {
 "anchors":"agreement analysis claus complianc counterparty dpa gdpr indemnity lawyer legal liability nda obligation regulatory risky servic term vendor",
+"hangul":"검토 계약 규제 라이 분석 약서 언스 이언 컴플 플라",
+"hangul_anchors":"검토 계약 규제 라이 분석 약서 언스 이언 컴플 플라",
 "label":"omh-legal-compliance-review",
 "name":"legal-compliance-review",
 "situation":"Business contract, NDA, or policy with legal risk",
@@ -307,6 +350,8 @@
 },
 {
 "anchors":"angry answer cannot customer draft email engineer escalation log refund reply respons ticket triag urgent",
+"hangul":"고객 답변 레이 분류 스컬 에스 이션 지원 초안 컬레 티켓",
+"hangul_anchors":"고객 답변 분류 스컬 에스 이션 지원 초안 컬레 티켓",
 "label":"omh-support-operations",
 "name":"support-operations",
 "situation":"Support ticket your team must answer or escalate",
@@ -320,6 +365,8 @@
 },
 {
 "anchors":"assessment cours curriculum hire learn lesson objectiv program quizz six syllabus train week weekly workshop",
+"hangul":"계획 리큘 목표 설계 커리 큘럼 평가 학습",
+"hangul_anchors":"계획 리큘 목표 설계 커리 큘럼 평가 학습",
 "label":"omh-curriculum-design",
 "name":"curriculum-design",
 "situation":"Team training or course that needs a syllabus",
@@ -334,6 +381,8 @@
 },
 {
 "anchors":"checklist consistency copy fit glossary i18n japanes korean launch localization market string translation",
+"hangul":"검토 번역 어집 용어 지화 현지",
+"hangul_anchors":"검토 번역 어집 용어 지화 현지",
 "label":"omh-localization-review",
 "name":"localization-review",
 "situation":"Translated product or content release",
@@ -349,6 +398,8 @@
 },
 {
 "anchors":"account approach bant buyer company development discovery enterpris lead meddic messag outbound prospect qualification qualify sale win",
+"hangul":"객사 계획 고객 메시 바운 발굴 시지 아웃 영업 운드 웃바",
+"hangul_anchors":"객사 계획 고객 메시 바운 발굴 시지 아웃 영업 운드 웃바",
 "label":"omh-sales-development",
 "name":"sales-development",
 "situation":"Prospect or account worth pursuing",
@@ -362,6 +413,8 @@
 },
 {
 "anchors":"backlog document option prd prioritiz prioritization quarter requirement rice roadmap scor spec tradeoff",
+"hangul":"구사 기획 드맵 로드 문서 사항 선순 순위 요구 우선 제품 획서",
+"hangul_anchors":"구사 기획 드맵 로드 문서 사항 선순 순위 요구 우선 제품 획서",
 "label":"omh-product-brief",
 "name":"product-brief",
 "situation":"PRD or roadmap priorities to decide",
@@ -376,6 +429,8 @@
 },
 {
 "anchors":"blocker leadership operat ops priority queu week weekly",
+"hangul":"로커 리뷰 리스 리즈 릴리 블로 상태 선순 순위 스크 우선 운영 주간",
+"hangul_anchors":"로커 리스 리즈 릴리 블로 상태 선순 순위 스크 우선 운영 주간",
 "label":"omh-ops-review",
 "name":"ops-review",
 "situation":"Recurring operating status and blockers",
@@ -390,6 +445,8 @@
 },
 {
 "anchors":"history item log meet minut operat organiz retro retrospectiv rhythm scrum sprint standup",
+"hangul":"결정 관리 기록 리듬 린트 스크 스토 스프 아이 액션 운영 의록 이템 크럼 토리 프린 회고 회의 히스",
+"hangul_anchors":"결정 관리 기록 리듬 린트 스크 스토 스프 아이 액션 운영 의록 이템 크럼 토리 프린 회고 회의 히스",
 "label":"omh-operating-rhythm",
 "name":"operating-rhythm",
 "situation":"Team minutes, retros, and decision history to keep",
@@ -404,6 +461,8 @@
 },
 {
 "anchors":"board business deck exec executiv leadership month monthly outlin ppt presentation quarterly slid upload weekly",
+"hangul":"경영 고서 더십 라이 로드 리더 발표 보고 슬라 업로 영진 월간 이드 자료 주간 키지 패키 표자 피티 피피",
+"hangul_anchors":"경영 고서 더십 라이 로드 리더 발표 보고 슬라 업로 영진 월간 이드 자료 주간 키지 패키 표자 피티 피피",
 "label":"omh-report-package",
 "name":"report-package",
 "situation":"Periodic report for executives",
@@ -420,6 +479,8 @@
 },
 {
 "anchors":"agency analysis attach binary clean convert creat csv deck differenc document docx excel export extract hwp item keynot korean layout material monthly outlin pdf powerpoint ppt pptx proposal pull render sheet spreadsheet tabl word xlsx",
+"hangul":"고서 노트 드시 디에 레드 렌더 리프 문서 보고 부한 분석 브리 비교 생성 셀을 스프 시트 안서 에프 엑셀 워드 월간 자료 제안 처리 첨부 추출 키노 키지 파일 패키 표를 프레 피디 한글",
+"hangul_anchors":"고서 노트 드시 디에 레드 렌더 리프 문서 보고 부한 분석 브리 비교 생성 셀을 스프 시트 안서 에프 엑셀 워드 월간 자료 제안 처리 첨부 추출 키노 키지 파일 패키 표를 프레 피디 한글",
 "label":"omh-materials-package",
 "name":"materials-package",
 "situation":"PPT, PDF, Excel, or HWP output to produce",
@@ -434,13 +495,15 @@
 },
 {
 "anchors":"announcement backdrop background bug card competitor conversation cron cut digest edit explain explainer explanation feedback generation imag img infographic meet multilingual news photo pictur pull remov removal shareabl sum thumbnail triag vertical visual",
+"hangul":"경쟁 고서 공유 그래 기능 내용 네일 노트 뉴스 데이 드로 드백 래픽 로우 록을 리뷰 리서 리아 리즈 리포 리핑 릴리 명하 미지 발표 배경 버그 보고 보기 뷰어 브리 사진 생성 서치 설명 성해 세로 소개 썸네 아지 안내 약해 어에 업데 에게 요약 용을 워크 유용 유할 의록 이미 이슈 이트 인포 일로 쟁사 제거 좋은 지로 진처 처럼 카드 크론 크플 트리 편집 포그 포트 플로 피드 하나 회의",
+"hangul_anchors":"경쟁 고서 공유 그래 기능 내용 네일 노트 뉴스 데이 드로 드백 래픽 로우 록을 리서 리아 리즈 리포 리핑 릴리 명하 미지 발표 배경 버그 보고 보기 뷰어 브리 사진 생성 서치 설명 성해 세로 소개 썸네 아지 안내 약해 어에 업데 에게 용을 워크 유용 유할 의록 이미 이슈 이트 인포 일로 쟁사 제거 좋은 지로 진처 처럼 카드 크론 크플 트리 편집 포그 포트 플로 피드 하나 회의",
 "label":"omh-image-cards",
 "name":"img-summary",
-"situation":"Infographic card for a report, PR, or release",
+"situation":"Infographic card for meeting notes, a report, or PR",
 "terms":{
 "1":"awar claim domain herm prepar prs sourc specific suppli transformation turn without",
-"2":"backdrop background brief bug competitor conversation cron cut digest explain explainer explanation featur feedback multilingual news note page photo product pull remov removal request review sum support tool triag vertical",
-"3":"card edit generation issu research",
+"2":"backdrop background brief bug competitor conversation cron cut digest explain explainer explanation featur feedback multilingual news page photo product pull remov removal request review sum support tool triag vertical",
+"3":"card edit generation issu note research",
 "4":"announcement pictur shareabl thumbnail",
 "5":"img infographic meet pr releas report summary visual",
 "6":"imag prompt"
@@ -448,6 +511,8 @@
 },
 {
 "anchors":"3d appl feedback glass guidelin hero hig human imag inspir interfac ios ipad iphon land layout light liquid maco polish render screen studio styl swiftui ui visual",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-apple-design",
 "name":"apple-design",
 "situation":"Designing or reviewing an iOS, macOS, or Apple-style UI",
@@ -463,6 +528,8 @@
 },
 {
 "anchors":"direction don end figur handl know orchestration ownership take",
+"hangul":"덕트 디자 로덕 맡겨 자인 전체 프로",
+"hangul_anchors":"덕트 디자 로덕 맡겨 자인 전체",
 "label":"omh-design-orchestration",
 "name":"design-orchestration",
 "situation":"Entire product design problem to delegate",
@@ -476,6 +543,8 @@
 },
 {
 "anchors":"beautiful brochur cheap deck finish frontend high layout look max pdf polish ppt premium print pro professional publish ui ux validation visual websit",
+"hangul":"검증 고퀄 나게 디자 뛰어 레이 론트 리싱 블리 사이 아웃 어나 엔드 웹사 이아 이트 자인 트엔 퍼블 프론",
+"hangul_anchors":"검증 고퀄 나게 디자 뛰어 론트 리싱 블리 사이 아웃 어나 엔드 웹사 이아 이트 자인 트엔 퍼블 프론",
 "label":"omh-design-quality-gate",
 "name":"design-quality-gate",
 "situation":"Deliverable demands premium polish",
@@ -491,6 +560,8 @@
 },
 {
 "anchors":"awwward contender cssda daily hold innovation land priz rate ui ux wotd",
+"hangul":"가능 능한 디자 만한 받을 사이 상작 수상 수준 어워 올해 워드 을만 이트 자인 해의",
+"hangul_anchors":"가능 능한 디자 만한 받을 사이 상작 수상 수준 어워 올해 워드 을만 이트 자인 해의",
 "label":"omh-award-bar-score",
 "name":"award-bar-score",
 "situation":"Aiming for design-award quality",
@@ -506,6 +577,8 @@
 },
 {
 "anchors":"accessibility ai animation beautiful broken component core dashboard end front frontend generic land layout library lighthous look market motion parallax polish premium react responsiv slop styl system terminal tui ui ux visual vital wcag",
+"hangul":"고급 근성 급스 깨짐 니메 드러 드럽 디자 딩페 랙스 랜딩 러운 럴랙 럽게 레이 려하 론트 메이 반응 부드 스러 스럽 스크 아웃 애니 엔드 연스 응형 이션 이아 이지 자연 자인 접근 크롤 트엔 패럴 페이 프론 하게 화려 화면",
+"hangul_anchors":"고급 근성 급스 깨짐 니메 드러 드럽 디자 딩페 랙스 랜딩 러운 럴랙 럽게 려하 론트 메이 반응 부드 스러 스럽 스크 아웃 애니 엔드 연스 응형 이션 이아 이지 자연 자인 접근 크롤 트엔 패럴 페이 프론 하게 화려 화면",
 "label":"omh-frontend",
 "name":"frontend",
 "situation":"Building or polishing a web or terminal UI",
@@ -520,6 +593,8 @@
 },
 {
 "anchors":"800 behavior big boolean break chain clean colocation drill everywher front frontend giant larg line pass prop react restructur ui useeffect usestat",
+"hangul":"관리 넌트 론트 리뷰 리팩 분리 상태 엔드 정리 컴포 터링 토링 트가 트엔 팩터 팩토 포넌 프론",
+"hangul_anchors":"관리 넌트 론트 리팩 분리 상태 엔드 정리 컴포 터링 토링 트가 트엔 팩터 팩토 포넌 프론",
 "label":"omh-frontend-refactor",
 "name":"frontend-refactor",
 "situation":"Oversized or tangled UI component",
@@ -535,6 +610,8 @@
 },
 {
 "anchors":"auth authentication authorization backend connection databas db deprecat deprecation end endpoint flow graphql grpc handler idempotency key map messag migration old openapi orm pagination pool postgr queu receiver respons rest retir rule schedul schema server servic side sunset tabl webhook",
+"hangul":"개발 권한 그레 드포 디비 레이 마이 백엔 서버 설계 스키 엔드 이그 이션 인증 인트 체크 키마 포인 흐름",
+"hangul_anchors":"개발 권한 그레 드포 디비 마이 백엔 서버 설계 스키 엔드 이그 이션 인증 인트 체크 키마 포인 흐름",
 "label":"omh-backend",
 "name":"backend",
 "situation":"Designing an API, server, or data-layer change",
@@ -549,6 +626,8 @@
 },
 {
 "anchors":"behavior bind borrow cargo checker clippy compil compiler extern ffi library lifetim lint loom maybeuninit miri ownership pointer raw reject rust rustlang satisfy sound struct trait undefin unsaf warn",
+"hangul":"검사 동작 라이 러스 미정 빌림 사기 세이 소유 스트 언세 에러 유권 이프 정의 코드 타임 프타",
+"hangul_anchors":"검사 동작 라이 러스 미정 빌림 사기 세이 소유 언세 에러 유권 이프 정의 타임 프타",
 "label":"omh-rust",
 "name":"rust",
 "situation":"Rust ownership, lifetime, or unsafe trouble",
@@ -564,6 +643,8 @@
 },
 {
 "anchors":"11 backtrac binary breakpoint core corrupt corruption crash dap debug debugger dereferenc disassembly dump fault free freed gdb get heap lldb null pointer segfault segmentation stack startup strip watchpoint",
+"hangul":"그폴 네이 단점 덤프 디버 메모 모리 버깅 세그 셈블 손상 어셈 역어 이티 중단 코어 티브 폴트",
+"hangul_anchors":"그폴 네이 단점 덤프 디버 메모 모리 버깅 세그 셈블 손상 어셈 역어 이티 중단 코어 티브 폴트",
 "label":"omh-native-debugging",
 "name":"native-debugging",
 "situation":"Native program crashes or corrupts memory",
@@ -579,6 +660,8 @@
 },
 {
 "anchors":"400 a11y aa accessibility accessibl ada against appearanc architect aria background blind color complianc contrast focus hard keyboard launch name navigation order pass ratio reader reflow role screen screenreader size tab target text touch trap usabl valu wcag websit zoom",
+"hangul":"감사 검사 검토 게이 근성 내비 대비 리더 린리 명도 보드 비게 순서 스크 이션 접근 커스 크기 크린 키보 타깃 터치 포커 표시",
+"hangul_anchors":"감사 검사 검토 게이 근성 내비 대비 리더 린리 명도 보드 비게 순서 스크 이션 접근 커스 크기 크린 키보 타깃 터치 포커 표시",
 "label":"omh-accessibility-audit",
 "name":"accessibility-audit",
 "situation":"Screen-reader or keyboard accessibility gaps",
@@ -593,6 +676,8 @@
 },
 {
 "anchors":"analyz assuranc broken browser button cjk click clip consol cut dead imag interaction keyboard layout link look mobil navigation network pixel problem regression render responsiv right screenshot terminal text tui ui viewport visual wrong",
+"hangul":"검증 글자 깨짐 레이 렌더 린샷 문제 미널 바꿈 비교 비주 스크 시각 아웃 이아 잘림 주얼 줄바 크린 터미 픽셀 한글 화면",
+"hangul_anchors":"검증 글자 깨짐 렌더 린샷 문제 미널 바꿈 비교 비주 스크 시각 아웃 이아 잘림 주얼 줄바 크린 터미 픽셀 한글 화면",
 "label":"omh-visual-qa",
 "name":"visual-qa",
 "situation":"Rendered UI needing a visual verdict",
@@ -608,6 +693,8 @@
 },
 {
 "anchors":"brok cargo ci compil compilation dco github job lint npm pipelin pytest red triag tsc type typecheck upgrad",
+"hangul":"고쳐 깨짐 라인 배포 빌드 스트 실패 에러 이프 입체 체크 컴파 타입 테스 파이 파일 프라",
+"hangul_anchors":"고쳐 깨짐 라인 배포 빌드 실패 에러 이프 입체 체크 컴파 타입 테스 파이 파일 프라",
 "label":"omh-build-failure-triage",
 "name":"build-failure-triage",
 "situation":"Build or CI failure to triage",
@@ -623,6 +710,8 @@
 },
 {
 "anchors":"config configur gap hook inventory list mcp plugin repo repository workspac",
+"hangul":"감사 레포 벤토 설정 스킬 스페 워크 이스 인벤 크스 토리 페이",
+"hangul_anchors":"감사 레포 벤토 설정 스킬 스페 워크 이스 인벤 크스 토리 페이",
 "label":"omh-workspace-audit",
 "name":"workspace-audit",
 "situation":"Workspace setup inventory and gaps",
@@ -638,6 +727,8 @@
 },
 {
 "anchors":"checklist launch live operational pre preflight prod rollback ship",
+"hangul":"덕션 로덕 롤백 리즈 릴리 운영 준비 출시 프로",
+"hangul_anchors":"덕션 로덕 롤백 리즈 릴리 운영 출시",
 "label":"omh-production-audit",
 "name":"production-audit",
 "situation":"Imminent production launch or release",
@@ -653,6 +744,8 @@
 },
 {
 "anchors":"checklist clos definition deriv lint longer match merg pass prov their typecheck",
+"hangul":"검증 게이 린트 머지 빌드 스트 이트 테스 품질",
+"hangul_anchors":"검증 게이 린트 머지 빌드 이트 테스 품질",
 "label":"omh-verification-gate",
 "name":"verification-gate",
 "situation":"Proof a change is done before merge",
@@ -666,6 +759,8 @@
 },
 {
 "anchors":"bake benchmark better between claud codex comparison default eval evaluation fair real tournament",
+"hangul":"덱스 로드 비교 실행 에이 이전 전트 코덱 클로 평가 행자",
+"hangul_anchors":"덱스 로드 비교 실행 에이 이전 전트 코덱 클로 평가 행자",
 "label":"omh-agent-evaluation",
 "name":"agent-evaluation",
 "situation":"Choosing between coding agents on evidence",
@@ -680,6 +775,8 @@
 },
 {
 "anchors":"best comment distill distillation extract guidanc guidelin learn md past practic principl rule trac wrong",
+"hangul":"규칙 롬프 스킬 원칙 증류 추출 프롬 프트",
+"hangul_anchors":"규칙 롬프 스킬 원칙 증류 추출 프롬 프트",
 "label":"omh-rules-distill",
 "name":"rules-distill",
 "situation":"Turn repeated lessons into written rules",
@@ -695,6 +792,8 @@
 },
 {
 "anchors":"codebas explain join onboard organiz orientation repo repository runway structur tour understand",
+"hangul":"개발 구조 드베 레포 발자 베이 보는 보딩 설명 온보 이스 처음 코드",
+"hangul_anchors":"개발 구조 드베 레포 발자 베이 보는 보딩 설명 온보 이스 처음",
 "label":"omh-codebase-onboarding",
 "name":"codebase-onboarding",
 "situation":"Unfamiliar repository needing a guided tour",
@@ -709,6 +808,8 @@
 },
 {
 "anchors":"big codegraph codemap date index intelligenc map merg navigation pack pass rebuild refresh stal symbol",
+"hangul":"갱신 그래 덱스 드그 드맵 래프 인덱 코드",
+"hangul_anchors":"갱신 그래 덱스 드그 드맵 래프 인덱",
 "label":"omh-codegraph-refresh",
 "name":"codegraph-refresh",
 "situation":"Outdated code index or codemap",
@@ -724,6 +825,8 @@
 },
 {
 "anchors":"depend imag map plantuml slack teammat uml visual",
+"hangul":"각화 구조 그램 그림 다이 드베 래스 림으 베이 스를 시각 아키 어그 으로 이스 이어 조도 코드 클래 키지 키텍 텍처 패키 화해",
+"hangul_anchors":"각화 구조 그램 그림 다이 드베 래스 림으 베이 스를 시각 아키 어그 으로 이스 이어 조도 클래 키지 키텍 텍처 패키 화해",
 "label":"omh-codebase-uml",
 "name":"codebase-uml",
 "situation":"Architecture picture of a codebase",
@@ -739,6 +842,8 @@
 },
 {
 "anchors":"budget checkpoint compact compaction conversation get hit hygien key limit long overflow reus summarization token well",
+"hangul":"스트 압축 예산 요약 인트 체크 컨텍 크포 텍스 토큰 포인",
+"hangul_anchors":"압축 예산 인트 체크 컨텍 크포 텍스 토큰 포인",
 "label":"omh-context-budget-review",
 "name":"context-budget-review",
 "situation":"Context window or token budget at risk",
@@ -753,6 +858,8 @@
 },
 {
 "anchors":"ai automation broad certificat chain credential dangerous destructiv exposur guard injection leak permission plugin revok rm rotation safety sandbox script secret security supply",
+"hangul":"검토 괴적 노출 롬프 명령 보안 시크 안전 에이 이전 인젝 전트 젝션 크릿 파괴 프롬 프트",
+"hangul_anchors":"검토 괴적 노출 롬프 명령 보안 시크 안전 에이 이전 인젝 전트 젝션 크릿 파괴 프롬 프트",
 "label":"omh-security-safety-review",
 "name":"security-safety-review",
 "situation":"Agent or automation safety risks",
@@ -767,6 +874,8 @@
 },
 {
 "anchors":"automat automation blueprint continuously cron daily day digest discord job morn noth notify ops ping post put recur schedul send silent slack telegram timed weekly",
+"hangul":"감시 계속 공유 그램 니터 동화 디스 레그 매일 매주 모니 반복 변화 보내 스케 스코 슬랙 없으 예약 용히 으면 자동 정기 조용 지켜 케줄 켜봐 코드 터링 텔레 화해",
+"hangul_anchors":"감시 계속 공유 그램 니터 동화 디스 레그 매일 매주 모니 반복 변화 보내 스케 스코 슬랙 없으 예약 용히 으면 자동 정기 조용 지켜 케줄 켜봐 터링 텔레 화해",
 "label":"omh-automation-blueprint",
 "name":"automation-blueprint",
 "situation":"Recurring Hermes job on a schedule (cron, digests)",
@@ -780,6 +889,8 @@
 },
 {
 "anchors":"budget downtim followup incident last left mortem outag post postmortem recur reliability remediation servic sla slo sre stop target uptim week",
+"hangul":"검증 러버 뢰성 리뷰 모템 방지 버짓 분석 비스 사후 서비 스트 신뢰 에러 장애 재발 트모 포스 회고",
+"hangul_anchors":"검증 러버 뢰성 모템 방지 버짓 분석 비스 사후 서비 신뢰 에러 장애 재발 트모 포스 회고",
 "label":"omh-reliability-review",
 "name":"reliability-review",
 "situation":"Postmortem for an outage or SLO miss",
@@ -795,6 +906,8 @@
 },
 {
 "anchors":"bootstrap complet deployment empty end idea launch mvp repo scaffold scratch take",
+"hangul":"가보 기획 까지 디어 루프 배포 보자 부터 비스 서비 스로 시까 아이 어를 어부 완제 운영 이디 제품 출시 포까 획부",
+"hangul_anchors":"가보 기획 까지 디어 루프 배포 보자 부터 비스 서비 스로 시까 아이 어를 어부 완제 운영 이디 제품 출시 포까 획부",
 "label":"omh-idea-to-deploy",
 "name":"idea-to-deploy",
 "situation":"App idea headed for launch",
@@ -810,6 +923,8 @@
 },
 {
 "anchors":"chatbot dev document evaluat extract field invoic pin reliably",
+"hangul":"가셋 개발 골든 관리 구조 구축 기능 든셋 라인 롬프 리케 버전 스키 애플 이션 이프 조화 출력 케이 키마 파이 평가 프라 프롬 프트 플리 화된",
+"hangul_anchors":"가셋 개발 골든 관리 구조 구축 기능 든셋 라인 롬프 리케 버전 스키 애플 이션 이프 조화 출력 케이 키마 파이 평가 프라 프롬 프트 플리 화된",
 "label":"omh-llm-app-dev",
 "name":"llm-app-dev",
 "situation":"LLM-powered feature to build",
@@ -826,6 +941,8 @@
 },
 {
 "anchors":"act cto dev engineer launch lead leadership operat ops pm risky roadmap security several ship tech technical together tradeoff",
+"hangul":"구조 기술 더십 드맵 드오 레이 로드 리더 아키 오프 이드 준비 출시 키텍 텍처 트레",
+"hangul_anchors":"구조 기술 더십 드맵 드오 로드 리더 아키 오프 이드 출시 키텍 텍처 트레",
 "label":"omh-cto-loop",
 "name":"cto-loop",
 "situation":"Engineering leadership over roadmap and risk",
@@ -841,6 +958,8 @@
 },
 {
 "anchors":"deploy deployment eye health hold incident metric monitor post production roll rollback safely servic ship version watch",
+"hangul":"감시 니터 덕션 라에 로덕 롤백 리즈 릴리 모니 배포 비스 서비 인프 장애 체크 터링 프라 프로 헬스",
+"hangul_anchors":"감시 니터 덕션 라에 로덕 롤백 리즈 릴리 모니 배포 비스 서비 인프 장애 체크 터링 프라 헬스",
 "label":"omh-deploy-and-monitor",
 "name":"deploy-and-monitor",
 "situation":"Release rollout needing health signals",
@@ -855,6 +974,8 @@
 },
 {
 "anchors":"adversarial break case e2e edge end flow hostil input installer nasty real scenario throw try ultraqa wizard world",
+"hangul":"검증 네티 리스 리즈 릴리 버네 상황 스트 장애 적절 절히 진단 체크 쿠버 크리 티스",
+"hangul_anchors":"검증 네티 리스 리즈 릴리 버네 상황 장애 적절 절히 진단 체크 쿠버 크리 티스",
 "label":"ulw-qa",
 "name":"ultraqa",
 "situation":"Hostile scenario testing",
@@ -869,6 +990,8 @@
 },
 {
 "anchors":"break breakdown bug github hub reproduc reproduction safely step templat triag",
+"hangul":"계획 구사 다음 답할 로젝 브가 비할 사항 상태 요구 운영 작업 재현 정리 젝트 준비 차례 태와 트별 프로 필요 행동 허브",
+"hangul_anchors":"계획 구사 다음 답할 로젝 브가 비할 사항 상태 요구 운영 작업 재현 정리 젝트 차례 태와 트별 필요 행동 허브",
 "label":"omh-plan",
 "name":"plan",
 "situation":"Software feature or bugfix not yet planned",
@@ -884,6 +1007,8 @@
 },
 {
 "anchors":"acceptanc approach consensus criteria dangerous implement ralplan refactor reviewabl risky safety sign unsaf",
+"hangul":"가능 검증 검토 계획 능한 단위 대안 드베 리뷰 리서 리스 리팩 베이 비교 서치 스크 웹리 위험 이스 있게 있는 조사 코드 터링 팩터 험한",
+"hangul_anchors":"가능 검증 검토 계획 능한 단위 대안 드베 리서 리스 리팩 베이 비교 서치 스크 웹리 위험 이스 있게 있는 조사 터링 팩터 험한",
 "label":"ulw-plan",
 "name":"ralplan",
 "situation":"High-stakes technical proposal needing approval",
@@ -898,6 +1023,8 @@
 },
 {
 "anchors":"adversarial advocat against angl approach architectur argu consensus devil hyperplan migration perspectiv stress",
+"hangul":"검토 계획 관점 다관 대적 드팀 레드 반박 에서 여러 적대 점에 찾아 허점",
+"hangul_anchors":"검토 계획 관점 다관 대적 드팀 레드 반박 에서 여러 적대 점에 찾아 허점",
 "label":"omh-adversarial-consensus",
 "name":"adversarial-consensus",
 "situation":"Technical proposal facing adversarial scrutiny",
@@ -911,6 +1038,8 @@
 },
 {
 "anchors":"actually bug eye happen logic match pair pull readm second spot",
+"hangul":"검증 결과 까지 는가 는지 드와 리뷰 리즈 릴리 맞는 뷰까 실제 제로 증된 코드 했는",
+"hangul_anchors":"검증 결과 까지 는가 는지 드와 리즈 릴리 맞는 뷰까 실제 제로 증된 했는",
 "label":"omh-code-review",
 "name":"code-review",
 "situation":"Pull request or changes to vet",
@@ -926,6 +1055,8 @@
 },
 {
 "anchors":"ai analysis behavior clean cleaner cleanup dead delet deslop duplicat helper legacy logic preserv refactor remov risky simplify slop unus wrot",
+"hangul":"리팩 범위 변경 분석 스트 위험 제한 터링 테스 토링 팩터 팩토 회귀",
+"hangul_anchors":"리팩 범위 변경 분석 위험 제한 터링 테스 토링 팩터 팩토 회귀",
 "label":"omh-ai-slop-cleaner",
 "name":"ai-slop-cleaner",
 "situation":"Messy or AI-generated code to clean up",
@@ -941,6 +1072,8 @@
 },
 {
 "anchors":"between codebas larg lockfil migrat move safely split stag step",
+"hangul":"계별 계획 단계 롤백 리팩 세워 터링 토링 팩터 팩토",
+"hangul_anchors":"계별 계획 단계 롤백 리팩 세워 터링 토링 팩터 팩토",
 "label":"omh-refactor-plan",
 "name":"refactor-plan",
 "situation":"Decided cross-module refactor to phase",
@@ -957,6 +1090,8 @@
 },
 {
 "anchors":"budget clean cleanup codebas problem quick rank week win worst",
+"hangul":"감사 기술 부채 사해 술부 원장 장부 점검",
+"hangul_anchors":"감사 기술 부채 사해 술부 원장 장부 점검",
 "label":"omh-tech-debt-audit",
 "name":"tech-debt-audit",
 "situation":"Accumulated tech debt to rank",
@@ -971,6 +1106,8 @@
 },
 {
 "anchors":"a100 cach cpp deployment gguf host kubernet level llama measur prefix qwen throughput ttft vllm worth",
+"hangul":"띄워 마크 모델 배포 벤치 빙해 서버 서빙 추론 치마 포해",
+"hangul_anchors":"띄워 마크 모델 배포 벤치 빙해 서버 서빙 추론 치마 포해",
 "label":"omh-inference-serving",
 "name":"inference-serving",
 "situation":"Self-hosted LLM serving on GPUs",
@@ -985,6 +1122,8 @@
 },
 {
 "anchors":"came claud glm gpt latest version",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-model-optimization",
 "name":"model-optimization",
 "situation":"Onboarding a newly released model generation",
@@ -1000,6 +1139,8 @@
 },
 {
 "anchors":"benchmark bill bottleneck ci cloud cost databas don footprint goal grow hot hotspot inferenc investigation jank janky know latency leak long perf performanc pipelin profil query render slow storag take throughput token ultraperf ulw went",
+"hangul":"누수 느려 려진 메모 모리 병목 성능 원인 전반 점검",
+"hangul_anchors":"누수 느려 려진 메모 모리 병목 성능 원인 전반 점검",
 "label":"ulw-perf",
 "name":"ultraperf",
 "situation":"Software slowness, memory leaks, or cost spikes",
@@ -1013,6 +1154,8 @@
 },
 {
 "anchors":"answer base driv googl knowledg live markdown notion obsidian organiz shar stor system vault wiki",
+"hangul":"노션 다운 디언 마크 베이 볼트 시디 식베 옵시 위키 이스 정리 지식 체계 크다",
+"hangul_anchors":"노션 다운 디언 마크 베이 볼트 시디 식베 옵시 위키 이스 정리 지식 체계 크다",
 "label":"omh-wiki",
 "name":"wiki",
 "situation":"Scattered knowledge needing a wiki",
@@ -1027,6 +1170,8 @@
 },
 {
 "anchors":"advisor ai another claud consult critiqu cross different gemini opinion outsid say second",
+"hangul":"의견",
+"hangul_anchors":"의견",
 "label":"omh-ask",
 "name":"ask",
 "situation":"Outside AI critique wanted",
@@ -1040,6 +1185,8 @@
 },
 {
 "anchors":"abort cancel current end everyth kill progress stop",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-cancel",
 "name":"cancel",
 "situation":"Aborting an active workflow",
@@ -1054,6 +1201,8 @@
 },
 {
 "anchors":"edit manag remov search",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-skill",
 "name":"skill",
 "situation":"Installing, removing, or editing skills",
@@ -1066,6 +1215,8 @@
 },
 {
 "anchors":"diagnos doctor health installation look show wrong",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-doctor",
 "name":"doctor",
 "situation":"OMH install misbehaving",
@@ -1079,6 +1230,8 @@
 },
 {
 "anchors":"capability disabl don enabl family offer orchestration switch toggl trim",
+"hangul":"관리 기능 끄기 레이 메모 모리 비활 성화 스트 오케 이션 케스 코딩 트레 활성",
+"hangul_anchors":"관리 기능 끄기 메모 모리 비활 성화 오케 이션 케스 코딩 트레 활성",
 "label":"omh-capability-toggle",
 "name":"capability-toggle",
 "situation":"Tailoring enabled OMH families",
@@ -1093,6 +1246,8 @@
 },
 {
 "anchors":"activ elaps long",
+"hangul":"델로 돌고 모델 뭐가 실행 작업 중인",
+"hangul_anchors":"델로 돌고 모델 뭐가 실행 작업 중인",
 "label":"omh-running-work-board",
 "name":"running-work-board",
 "situation":"Live view of running coding units",
@@ -1109,6 +1264,8 @@
 },
 {
 "anchors":"finish left mark migration progress rest step",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-todo-checklist",
 "name":"todo-checklist",
 "situation":"Resume or finish the work we agreed on",
@@ -1124,6 +1281,8 @@
 },
 {
 "anchors":"account chain cheaper configur connect default different exceed key limit log openai quick quota rate role slot switch",
+"hangul":"계정 고리 그인 다른 로그 로바 리별 모델 바이 설정 세팅 슬롯 연결 으로 이더 전환 정으 체인 카테 테고 프로",
+"hangul_anchors":"계정 고리 그인 다른 로그 로바 리별 모델 바이 설정 세팅 슬롯 연결 으로 이더 전환 정으 체인 카테 테고",
 "label":"omh-model-setup",
 "name":"model-setup",
 "situation":"Model and provider configuration changes",
@@ -1139,6 +1298,8 @@
 },
 {
 "anchors":"capability current enabl faster parallel version",
+"hangul":"데이 도구 르메 메스 병렬 설정 업데 이트 인해 헤르 확인",
+"hangul_anchors":"데이 도구 르메 메스 병렬 설정 업데 이트 인해 헤르 확인",
 "label":"omh-parallel-tools",
 "name":"parallel-tools",
 "situation":"Parallel tool-call capability in doubt",
@@ -1154,6 +1315,8 @@
 },
 {
 "anchors":"auxiliary cheaper configur connect cost extract extraction key reduc scraper search websearch",
+"hangul":"검색 비용 서치 설정 싸게 웹서 이기 줄이",
+"hangul_anchors":"검색 비용 서치 설정 싸게 웹서 이기 줄이",
 "label":"omh-websearch-setup",
 "name":"websearch-setup",
 "situation":"Expensive or unconfigured web search",
@@ -1169,6 +1332,8 @@
 },
 {
 "anchors":"access calendar configur connect daily digest email gmail inbox integration mail morn",
+"hangul":"동해 리핑 메일 모닝 브리 설정 아침 연동 정해",
+"hangul_anchors":"동해 리핑 메일 모닝 브리 설정 아침 연동 정해",
 "label":"omh-morning-brief",
 "name":"morning-brief",
 "situation":"Mail and calendar brief configuration",
@@ -1184,6 +1349,8 @@
 },
 {
 "anchors":"attachment buzz community configur connect connection diagnostic gateway host imag join media post relay self",
+"hangul":"니티 메시 뮤니 버즈 시지 연결 첨부 커뮤",
+"hangul_anchors":"니티 메시 뮤니 버즈 시지 연결 첨부 커뮤",
 "label":"omh-buzz",
 "name":"buzz",
 "situation":"Buzz community agent setup or relay trouble",
@@ -1199,6 +1366,8 @@
 },
 {
 "anchors":"bug creat discord duplicat github intak log maintainer submit",
+"hangul":"깃허 등록 록해 리포 버그 생성 성해 슈로 올려 이슈 포트 허브",
+"hangul_anchors":"깃허 등록 록해 리포 버그 생성 성해 슈로 올려 이슈 포트 허브",
 "label":"omh-github-issue-intake",
 "name":"github-issue-intake",
 "situation":"Chat report that should become a GitHub issue",
@@ -1214,6 +1383,8 @@
 },
 {
 "anchors":"list obligation past",
+"hangul":"계약 고서 뉴얼 매뉴 문서 보고 약서 약해 연간 요약 읽기 읽어 전체",
+"hangul_anchors":"계약 고서 뉴얼 매뉴 문서 보고 약서 약해 연간 읽기 읽어 전체",
 "label":"omh-long-document-reading",
 "name":"long-document-reading",
 "situation":"Huge PDF or document to read in full",
@@ -1230,6 +1401,8 @@
 },
 {
 "anchors":"attacker hacker payment perspectiv servic system",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-application-threat-model",
 "name":"application-threat-model",
 "situation":"Attack paths into an operated system",
@@ -1244,6 +1417,8 @@
 },
 {
 "anchors":"cannot customer during mitigat progress sev1 sev2 sev3",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-live-incident-response",
 "name":"live-incident-response",
 "situation":"Production is down or an incident is open",
@@ -1259,6 +1434,8 @@
 },
 {
 "anchors":"assumption choic concept decid disposabl experiment feasibility library performanc prob proof prototyp quick quickly risky small solution spik throwaway timing try uncertain",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-decision-prototype",
 "name":"decision-prototype",
 "situation":"Uncertain technical choice for a spike",
@@ -1274,6 +1451,8 @@
 },
 {
 "anchors":"activation campaign churn come conversion engagement experiment growth holdout increas journey led lifecycl market messag monetization never nudg onboard paid re referral retention sign trial win",
+"hangul":"그로 라이 로스 마케 보딩 사이 실험 여정 온보 이클 이프 케팅 프사",
+"hangul_anchors":"그로 라이 로스 마케 보딩 사이 실험 여정 온보 이클 이프 케팅 프사",
 "label":"omh-lifecycle-growth",
 "name":"lifecycle-growth",
 "situation":"Churn or weak activation among users",
@@ -1289,6 +1468,8 @@
 },
 {
 "anchors":"assumption business customer demand discovery guid hypothesis idea interview kill pay peopl persever pivot portfolio prd problem riskiest solution startup validat validation willingness worth zero",
+"hangul":"가정 검증 결정 고객 발견 스트 지속 테스 피벗",
+"hangul_anchors":"가정 검증 결정 고객 발견 지속 테스 피벗",
 "label":"omh-product-discovery-validation",
 "name":"product-discovery-validation",
 "situation":"Unvalidated early product idea",
@@ -1304,6 +1485,8 @@
 },
 {
 "anchors":"calibration coverag deal enough export forecast health loss pipelin quarter realistic renewal sale salesforc seller slip stal stuck win",
+"hangul":"라인 리뷰 보정 영업 예측 이프 파이 프라",
+"hangul_anchors":"라인 보정 영업 예측 이프 파이 프라",
 "label":"omh-sales-pipeline-review",
 "name":"sales-pipeline-review",
 "situation":"CRM pipeline or sales forecast to review",
@@ -1320,6 +1503,8 @@
 },
 {
 "anchors":"option probability rate scal text true typed",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-jev-ask",
 "name":"jev-ask",
 "situation":"User named Jev for yes/no or pick-one probabilities",
@@ -1335,6 +1520,8 @@
 },
 {
 "anchors":"break decid fit sent tie undecidabl",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-jev-route",
 "name":"jev-route",
 "situation":"Undecided OMH route handed to Jev",
@@ -1348,6 +1535,8 @@
 },
 {
 "anchors":"accord broken flaky move retry",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-jev-failure-triage",
 "name":"jev-failure-triage",
 "situation":"Failing run handed to Jev for a next move",
@@ -1362,6 +1551,8 @@
 },
 {
 "anchors":"auth extra flag migration reviewer severity",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-jev-review-gate",
 "name":"jev-review-gate",
 "situation":"Wants Jev risk flags on a diff under review",
@@ -1378,6 +1569,8 @@
 },
 {
 "anchors":"blast email hold object radius rm screen send",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-jev-action-check",
 "name":"jev-action-check",
 "situation":"Risky command screened by Jev",
@@ -1393,6 +1586,8 @@
 },
 {
 "anchors":"against agree completion confirm finish object really",
+"hangul":"",
+"hangul_anchors":"",
 "label":"omh-jev-done-check",
 "name":"jev-done-check",
 "situation":"Completion claim tested by Jev",
@@ -1407,6 +1602,8 @@
 },
 {
 "anchors":"analysis arriv auto branch brok ci event github incom label main ops pull repo sort triag webhook",
+"hangul":"깃허 드오 라벨 리뷰 실패 어온 오프 이슈 픽스 핸드 허브",
+"hangul_anchors":"깃허 드오 라벨 실패 어온 오프 이슈 픽스 핸드 허브",
 "label":"omh-github-event-ops",
 "name":"github-event-ops",
 "situation":"Incoming GitHub PR, issue, or CI event",
@@ -1422,6 +1619,8 @@
 },
 {
 "anchors":"among assign between blocker board builder coordination heartbeat helper interviewer kanban multi multipl profil reviewer role split sub subagent",
+"hangul":"같이 멀티 명이 배분 보드 브에 서브 에이 여러 역할 이전 작업 전트 칸반 할과",
+"hangul_anchors":"같이 멀티 명이 배분 보드 브에 서브 에이 여러 역할 이전 작업 전트 칸반 할과",
 "label":"omh-agent-board",
 "name":"agent-board",
 "situation":"Coordinating several agents or profiles",
@@ -1438,6 +1637,8 @@
 },
 {
 "anchors":"captur don fact forget naming remember rule save secret stor token",
+"hangul":"기억 로젝 메모 모리 저장 제품 젝트 추가 캡처 프로",
+"hangul_anchors":"기억 로젝 메모 모리 저장 제품 젝트 추가 캡처",
 "label":"omh-memory-new",
 "name":"memory-new",
 "situation":"Project fact to remember across future sessions",
@@ -1453,6 +1654,8 @@
 },
 {
 "anchors":"clean cleanup conflict curat curation detail duplicat fact forget info inspect know md old outdat remember stal sync wrong",
+"hangul":"검사 기억 나에 너한 대해 데이 드백 등록 래된 로잡 로젝 로필 록된 르메 맥락 메모 메스 모리 바로 스가 스킬 알고 억하 업데 오래 이트 인터 있는 잘못 장된 저장 점검 정리 정보 젝트 중복 터뷰 프로 피드 한테 헤르 현재",
+"hangul_anchors":"검사 기억 나에 너한 대해 데이 드백 등록 래된 로잡 로젝 로필 록된 르메 맥락 메모 메스 모리 바로 스가 스킬 알고 억하 업데 오래 이트 인터 있는 잘못 장된 저장 점검 정리 정보 젝트 중복 터뷰 피드 한테 헤르 현재",
 "label":"omh-memory-sync",
 "name":"memory-sync",
 "situation":"Outdated or wrong Hermes memory entries",
@@ -1468,6 +1671,8 @@
 },
 {
 "anchors":"attachment bot card channel discord gateway intent notification post quiet reply send silent slack stay telegram thread unless webhook",
+"hangul":"게이 그램 디스 레그 레드 보내 스레 스코 슬랙 알림 용히 웨이 이트 전달 조용 채널 코드 텔레 트웨",
+"hangul_anchors":"게이 그램 디스 레그 레드 보내 스레 스코 슬랙 알림 용히 웨이 이트 전달 조용 채널 텔레 트웨",
 "label":"omh-gateway-intent-card",
 "name":"gateway-intent-card",
 "situation":"Bot replies via Discord, Slack, or Telegram",
@@ -1483,6 +1688,8 @@
 },
 {
 "anchors":"claud codex helper lack machin migration mode omc omo omx subagent vs worktree",
+"hangul":"길지 넘겨 넘길 덱스 런타 로드 르메 메스 브에 비성 서브 실행 업트 에이 으로 이전 임으 작업 전트 준비 코덱 코드 코딩 클로 타임 트리 헤르",
+"hangul_anchors":"길지 넘겨 넘길 덱스 런타 로드 르메 메스 브에 비성 서브 실행 업트 에이 으로 이전 임으 작업 전트 코덱 코딩 클로 타임 트리 헤르",
 "label":"omh-executor-runtime-readiness",
 "name":"executor-runtime-readiness",
 "situation":"Unsure whether Codex or Claude Code is ready",
@@ -1497,6 +1704,8 @@
 },
 {
 "anchors":"approv attach attachment client deck deliver deliverabl document generat mode pdf thread",
+"hangul":"상태 전달 첨부",
+"hangul_anchors":"상태 전달 첨부",
 "label":"omh-deliverable-package",
 "name":"deliverable-package",
 "situation":"Attachment and deliverable status tracking",
@@ -1512,6 +1721,8 @@
 },
 {
 "anchors":"accessibility dictat driv free line messag mobil phon push quick short speech spoken talk ters voic",
+"hangul":"근성 드폰 말로 말한 명령 모바 바일 성으 요청 으로 음성 접근 짧게 짧은 폰으 핸드",
+"hangul_anchors":"근성 드폰 말로 말한 명령 모바 바일 성으 요청 으로 음성 접근 짧게 짧은 폰으 핸드",
 "label":"omh-voice-input",
 "name":"voice-operator",
 "situation":"Dictated voice note about project work or status",
@@ -1527,6 +1738,8 @@
 },
 {
 "anchors":"automat automation blocker browser button captur checkout click fill flow form interactiv link log login navigat observation playwright site stag submit trac url visit webpag",
+"hangul":"그인 라우 로그 링크 막히 부분 브라 열고 우저 웹페 이지 입력 작성 작업 조작 캡처 클릭 페이 히는",
+"hangul_anchors":"그인 라우 로그 링크 막히 부분 브라 열고 우저 웹페 이지 입력 작성 작업 조작 캡처 클릭 페이 히는",
 "label":"omh-browser",
 "name":"browser-operator",
 "situation":"Browser login, click, or form task",
@@ -1542,6 +1755,8 @@
 },
 {
 "anchors":"archiv clean cleanup copy delet directory download duplicat filesystem folder list move name old organiz pdf remov renam safely search system workspac",
+"hangul":"검색 다운 디렉 렉터 로드 목록 변경 복사 삭제 운로 이동 이름 작업 정리 조작 찾아 터리 파일 폴더",
+"hangul_anchors":"검색 다운 디렉 렉터 로드 목록 변경 복사 삭제 운로 이동 이름 작업 정리 조작 찾아 터리 파일 폴더",
 "label":"omh-files",
 "name":"workspace-file-operator",
 "situation":"Folder cleanup, renames, or deletions",
@@ -1557,6 +1772,8 @@
 },
 {
 "anchors":"bun cargo cli execut npm pnpm print pytest python script shell suit terminal unittest uv",
+"hangul":"결과 널에 령어 명령 미널 스트 실행 에서 요약 준비 터미 테스",
+"hangul_anchors":"결과 널에 령어 명령 미널 실행 에서 터미 테스",
 "label":"omh-terminal",
 "name":"command-operator",
 "situation":"Shell command or test-suite execution",
@@ -1571,6 +1788,8 @@
 },
 {
 "anchors":"calendar channel creat crm customer discord dm draft edit email event gmail googl hubspot invit jira linear meet notion post saa salesforc send slack ticket",
+"hangul":"넥터 노션 린더 메일 발송 보내 액션 외부 이메 이슈 이지 초대 초안 캘린 커넥 티켓 페이",
+"hangul_anchors":"넥터 노션 린더 메일 발송 보내 액션 외부 이메 이슈 이지 초대 초안 캘린 커넥 티켓 페이",
 "label":"omh-apps",
 "name":"connector-operator",
 "situation":"Email, Slack, or Jira action to perform",
@@ -1585,11 +1804,13 @@
 },
 {
 "anchors":"airport bitcoin btc crypto current direction exchang forecast game info information krw last live map near nearby night pric rate real restaurant scor seoul sport stock timezon today traffic usd weather won york zone",
+"hangul":"가격 간대 결과 경기 길찾 날씨 스포 시간 식당 예보 점수 주가 주변 지도 찾기 코인 포츠 현재 환율",
+"hangul_anchors":"가격 간대 결과 경기 길찾 날씨 스포 시간 식당 예보 점수 주가 주변 지도 찾기 코인 포츠 현재 환율",
 "label":"omh-live-info",
 "name":"live-info-operator",
-"situation":"Live rates or scores a task must cite with sources",
+"situation":"Live rate, score, or local time a work task needs",
 "terms":{
-"1":"access add after api availability cite claim correctness data financ gate herm nativ ordinary overlay policy prefer prepar quality read request result retrieval sourc supervis task tool unit without",
+"1":"access add after api availability claim correctness data financ gate herm local nativ ordinary overlay policy prefer prepar quality read request result retrieval sourc supervis task tool unit without work",
 "2":"airport bitcoin btc crypto direction exchang forecast freshness krw last lookup near nearby new night provider real restaurant seoul stock timezon today traffic usd won york",
 "3":"information map scor sport zone",
 "4":"current game pric",
@@ -1599,6 +1820,8 @@
 },
 {
 "anchors":"adopt adoption affordabl agentchat agy antigravity assistant audio auth auto awar backend barg behavior blockchain bridg chainlink chat clawsocial cli comparison composio control cost crustocean crypto cryptocurrency data demo devic discovery enough evaluat gateway genai generat generation graph handl home identity integration integrity keychain maco mailbox matrix messag microsoft minivers monero multimodal nextcloud oauth oci onequery oracl pair peer platform plugin privat real realtim receipt reliabl safety screenshot smart social solana spoken sql stack text transaction trial universal video voic weather websocket windy windymail wire workspac wxtrain xmr",
+"hangul":"그인 기기 기준 넥터 데모 도입 라우 러그 리스 마트 멀티 모달 비도 비용 생성 스마 스크 스턴 시스 어시 연동 영상 외부 우팅 인증 자동 제어 제품 준비 채택 커넥 턴트 트홈 티모 플러 홈어",
+"hangul_anchors":"그인 기기 기준 넥터 데모 도입 라우 러그 리스 마트 멀티 모달 비도 비용 생성 스마 스크 스턴 시스 어시 연동 영상 외부 우팅 인증 자동 제어 제품 채택 커넥 턴트 트홈 티모 플러 홈어",
 "label":"omh-external-connector-readiness",
 "name":"external-connector-readiness",
 "situation":"Evaluating a plugin, connector, or API for adoption",
@@ -1615,6 +1838,8 @@
 },
 {
 "anchors":"arg argument bring clash claud cli codex collision compatibility directory folder frontmatter gemini import interpolation library map name opencod reus slash",
+"hangul":"가져 디렉 래시 렉터 롬프 매핑 명령 슬래 오기 인자 져오 터리 폴더 프롬 프트",
+"hangul_anchors":"가져 디렉 래시 렉터 롬프 매핑 명령 슬래 오기 인자 져오 터리 폴더 프롬 프트",
 "label":"omh-prompt-import-readiness",
 "name":"prompt-import-readiness",
 "situation":"Importing prompt files for Hermes",
@@ -1631,6 +1856,8 @@
 },
 {
 "anchors":"3d arm automation camera control cultivation devic equipment gated hardwar heat home iot klipper lab moonraker mushroom physical pi print printer raspberry relay robot robotic safety sensor snapmaker vla",
+"hangul":"드웨 레이 로봇 린터 릴레 물리 센서 안전 웨어 장비 제어 준비 프린 하드",
+"hangul_anchors":"드웨 로봇 린터 릴레 물리 센서 안전 웨어 장비 제어 프린 하드",
 "label":"omh-physical-device-readiness",
 "name":"physical-device-readiness",
 "situation":"Agent control of a robot, 3D printer, or IoT relay",
@@ -1646,6 +1873,8 @@
 },
 {
 "anchors":"announcement audienc changelog content copy customer draft email executiv guid land launch linkedin newsletter plain post publish rewrit social text tone version voic word",
+"hangul":"가이 객용 고객 공지 글쓰 널별 노트 뉴스 레이 레터 리즈 릴리 메일 문체 스레 쓰기 오퍼 요약 워크 이드 이메 이터 즈노 지문 채널 초안 콘텐 크플 텐츠 퍼레 플로",
+"hangul_anchors":"가이 객용 고객 공지 글쓰 널별 노트 뉴스 레터 리즈 릴리 메일 문체 스레 쓰기 오퍼 워크 이드 이메 이터 즈노 지문 채널 초안 콘텐 크플 텐츠 퍼레 플로",
 "label":"omh-content-operator",
 "name":"content-operator",
 "situation":"Product or company copy to publish or rewrite",
@@ -1660,6 +1889,8 @@
 },
 {
 "anchors":"audio clip extract extraction field graphic imag input media meet ocr pars photo pictur podcast pull receipt say screenshot text timestamp transcrib transcript transcription video webinar youtub",
+"hangul":"녹음 디오 라인 린샷 미지 샷에 수증 스크 스탬 스트 에서 영상 영수 오디 요약 유튜 음성 이미 임라 임스 전사 지에 추출 크린 타임 탬프 텍스 튜브 회의",
+"hangul_anchors":"녹음 디오 라인 린샷 미지 샷에 수증 스크 스탬 에서 영상 영수 오디 유튜 음성 이미 임라 임스 전사 지에 추출 크린 타임 탬프 텍스 튜브 회의",
 "label":"omh-media-input",
 "name":"media-input-operator",
 "situation":"Audio, video, or screenshot to process",
@@ -1675,6 +1906,8 @@
 },
 {
 "anchors":"analysis analyz anomaly causal causality chart cohort column correlation csv data dataset delta executiv json log retention schema segment spreadsheet tabl trend",
+"hangul":"과관 관계 관관 데이 델타 로그 분석 상관 상치 오류 요약 이상 이터 인과 전환 차트 추세 컬럼 패턴 환율",
+"hangul_anchors":"과관 관계 관관 데이 델타 로그 분석 상관 상치 오류 이상 이터 인과 전환 차트 추세 컬럼 패턴 환율",
 "label":"omh-data-analysis",
 "name":"data-analysis",
 "situation":"Dataset or table to analyze",
@@ -1690,6 +1923,8 @@
 },
 {
 "anchors":"automation browser cli credential driv generator github gmail googl imag integration jira key linear mcp notion plugin requir server slack toolbelt triag",
+"hangul":"격증 그인 넥터 도구 러그 연결 외부 자격 증명 커넥 플러",
+"hangul_anchors":"격증 그인 넥터 도구 러그 연결 외부 자격 증명 커넥 플러",
 "label":"omh-toolbelt-readiness",
 "name":"toolbelt-readiness",
 "situation":"Which tools and credentials a workflow needs",
@@ -1704,6 +1939,8 @@
 },
 {
 "anchors":"adapter around between claud codex config control differ drift earlier harness inventory last lifecycl list mcp pane previous recall recover still worktree",
+"hangul":"기억 네스 넥터 드리 리프 벤토 복구 설정 세션 워크 인벤 지난 커넥 코딩 크트 토리 트리 프트 하네",
+"hangul_anchors":"기억 네스 넥터 드리 리프 벤토 복구 설정 세션 워크 인벤 지난 커넥 코딩 크트 토리 트리 프트 하네",
 "label":"omh-harness-session-inventory",
 "name":"harness-session-inventory",
 "situation":"Lost track of agent sessions and worktrees",
@@ -1720,6 +1957,8 @@
 },
 {
 "anchors":"board card cost dashboard grafana health history latency metric mode monitor number observability ops overview prometheus rate servic slo spend telemetry token uptim",
+"hangul":"관측 그라 라파 로메 메테 메트 비스 비용 서비 시간 연시 우스 운영 지연 지휘 측성 테우 토큰 트릭 파나 품질 프로 휘판",
+"hangul_anchors":"관측 그라 라파 로메 메테 메트 비스 비용 서비 시간 연시 우스 운영 지연 지휘 측성 테우 토큰 트릭 파나 품질 휘판",
 "label":"omh-ops-observability-card",
 "name":"ops-observability-card",
 "situation":"Tracking cost, tokens, latency, or service health",
@@ -1734,6 +1973,8 @@
 },
 {
 "anchors":"achievement badg card clos earn newest progress recent shar tier unlock",
+"hangul":"과제 도전 배지 뱃지 업적 요약 전과",
+"hangul_anchors":"과제 도전 배지 뱃지 업적 전과",
 "label":"omh-achievements",
 "name":"achievements",
 "situation":"Hermes badges unlocked and achievement progress",
@@ -1748,6 +1989,8 @@
 },
 {
 "anchors":"ai blocker ce codex dashboard est good ist los manager ops pass productiv productivity progress qu qui se throughput view week",
+"hangul":"관리 까지 는지 덱스 됐는 됐어 되었 디까 리량 리뷰 리서 리자 리핑 무슨 뭐해 뭔일 브리 상황 서치 슨일 어디 업상 업이 었는 이노 이야 일이 일임 입장 작업 진행 처리 코덱 코딩 품질 행됐 행되 행상",
+"hangul_anchors":"관리 까지 는지 덱스 됐는 됐어 되었 디까 리량 리서 리자 리핑 무슨 뭐해 뭔일 브리 상황 서치 슨일 어디 업상 업이 었는 이노 이야 일이 일임 입장 작업 진행 처리 코덱 코딩 품질 행됐 행되 행상",
 "label":"omh-agent-ops-review",
 "name":"agent-ops-review",
 "situation":"AI agent progress for managers",
@@ -1762,6 +2005,8 @@
 },
 {
 "anchors":"burn captur debug drift goal introspection lost progress repeat retry self stall stuck token way",
+"hangul":"낭비 도구 드리 디버 리프 반복 버그 스트 실패 에이 이전 전트 컨텍 텍스 토큰 프트",
+"hangul_anchors":"낭비 도구 드리 디버 리프 반복 버그 실패 에이 이전 전트 컨텍 텍스 토큰 프트",
 "label":"omh-agent-debug",
 "name":"agent-debug",
 "situation":"Agent is stuck, looping, or drifting",
@@ -1776,6 +2021,8 @@
 },
 {
 "anchors":"bad broken catch consol dangerous empty exception fallback fals green hidden hide hunter ignor mask network nobody pass propagation say see silent swallow",
+"hangul":"감사 무음 백이 삼킨 삼킴 숨김 숨은 신호 실패 에러 용한 위험 조용 폴백 험한",
+"hangul_anchors":"감사 무음 백이 삼킨 삼킴 숨김 숨은 신호 실패 에러 용한 위험 조용 폴백 험한",
 "label":"omh-failure-signal-audit",
 "name":"failure-signal-audit",
 "situation":"Hidden or swallowed errors suspected",
@@ -1791,6 +2038,8 @@
 },
 {
 "anchors":"confidenc confident cross export global habit import instinct learn ledger lesson pattern promot promotion relearn scor specific",
+"hangul":"로젝 본능 스코 승격 전역 젝트 코프 트별 패턴 프로 학습",
+"hangul_anchors":"로젝 본능 스코 승격 전역 젝트 코프 트별 패턴 학습",
 "label":"omh-instinct-ledger",
 "name":"instinct-ledger",
 "situation":"Recurring lessons worth promoting",
@@ -1806,6 +2055,8 @@
 },
 {
 "anchors":"adopt adoption agentskill already community creat discovery don extend famous fork github io marketplac plugin popular reinvent scout search top useful worth",
+"hangul":"검색 그인 기존 들기 러그 명한 비교 설치 스카 스킬 없는 용한 우트 유명 유용 찾기 찾아 치할 카우 플러 할지 후보",
+"hangul_anchors":"검색 그인 기존 들기 러그 명한 비교 설치 스카 스킬 없는 용한 우트 유명 유용 찾기 찾아 치할 카우 플러 할지 후보",
 "label":"omh-skill-scout",
 "name":"skill-scout",
 "situation":"Existing skills to reuse before authoring",
@@ -1820,6 +2071,8 @@
 },
 {
 "anchors":"amendment backlog dashboard health improvement overview pattern pend portfolio stal",
+"hangul":"개선 대시 보드 보류 상태 수정 스킬 시보 실패 패턴 헬스 후보",
+"hangul_anchors":"개선 대시 보드 보류 상태 수정 스킬 시보 실패 패턴 헬스 후보",
 "label":"omh-skill-health",
 "name":"skill-health",
 "situation":"OMH skill portfolio health overview",
@@ -1834,6 +2087,8 @@
 },
 {
 "anchors":"bundl case corpus didn export gepa happen improv improvement index learn lesson process queu rebuild regression self stor supervision trac vprm wiki",
+"hangul":"개선 기록 내기 내보 누락 라우 보내 상태 스킬 실행 썼어 우팅 워크 이번 이스 점검 준비 케이 크플 플로 학습 회귀",
+"hangul_anchors":"개선 기록 내기 내보 누락 라우 보내 상태 스킬 실행 썼어 우팅 워크 이번 이스 점검 케이 크플 플로 학습 회귀",
 "label":"omh-workflow-learning",
 "name":"workflow-learning",
 "situation":"Missed route or run lessons to record",
@@ -1848,6 +2103,8 @@
 },
 {
 "anchors":"against already alternativ approach decid dismiss drop idea option previously recall reject rule",
+"hangul":"각된 거절 결정 기각 대안 절된",
+"hangul_anchors":"각된 거절 결정 기각 대안 절된",
 "label":"omh-decision-recall",
 "name":"decision-recall",
 "situation":"Previously rejected options to revisit",
@@ -1862,6 +2119,8 @@
 },
 {
 "anchors":"breakdown duration efficiency efficient last slow spent step timing utilization wast",
+"hangul":"도구 리포 사용 스트 시간 실행 용량 지연 컨텍 텍스 포트 효율",
+"hangul_anchors":"도구 리포 사용 시간 실행 용량 지연 컨텍 텍스 포트 효율",
 "label":"omh-run-efficiency",
 "name":"run-efficiency",
 "situation":"Run efficiency and context usage report",
@@ -1876,6 +2135,8 @@
 },
 {
 "anchors":"capability confirmation credential key postur presenc present profil safely secret show",
+"hangul":"공급 급자 넥터 로필 상태 시크 존재 준비 커넥 크릿 프로 확인",
+"hangul_anchors":"공급 급자 넥터 로필 상태 시크 존재 커넥 크릿 확인",
 "label":"omh-provider-profile-posture",
 "name":"provider-profile-posture",
 "situation":"Provider credentials without exposure",

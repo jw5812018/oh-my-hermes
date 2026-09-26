@@ -489,7 +489,14 @@ PRE_LLM_CALL_CONTEXT_FALLBACK_CHAR_LIMIT = 6917
 # "Upcoming work meeting that lacks an agenda") because a live model loaded
 # them for private-life chat (a weekend plan, a personal budget, a book club);
 # net +217 across those capability rows. Re-derived from the producer.
-FULL_CAPABILITY_SKILL_SECTION_CHAR_LIMIT = 441693
+# 441693 -> 441698: two of those openings get back what Korean requests to
+# them are about. omh-image-cards names meeting notes again (most of its
+# Hangul triggers are meeting minutes turned into an image), and
+# omh-live-info says a work task needs the rate, score, or local time rather
+# than that it "must cite with sources", which an ordinary exchange-rate
+# lookup for an invoice never says. Net +5 across the two rows. Re-derived
+# from the producer.
+FULL_CAPABILITY_SKILL_SECTION_CHAR_LIMIT = 441698
 FULL_CAPABILITY_SKILL_ITEM_CHAR_LIMIT = 9000
 # 100000 -> 102070: the same three domain workflows each add one standalone
 # capability row, again measured on the merged tree; warranted growth for three

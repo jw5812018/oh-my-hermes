@@ -33,6 +33,8 @@ from collections import Counter
 from dataclasses import dataclass
 from functools import lru_cache
 import math
+import re
+import unicodedata
 
 from .localization import routing_terms
 from .recommend import held_back_trigger_tokens
@@ -124,6 +126,68 @@ def lexical_terms(text: str) -> list[str]:
                 continue
             terms.append(stem(part))
     return terms
+
+
+# Hangul terms are syllable bigrams, taken inside each run of Hangul syllables
+# and never across a space. The router matches a Hangul trigger by containment
+# in the folded message (`contains_cue_phrase`), with no word boundary, because
+# Korean glues particles and endings onto the noun ("리뷰를", "리뷰해줘"). Bigrams
+# are the bag-of-words form of that rule: a message that contains a trigger
+# phrase contains every bigram of it, whatever the particles around it, and a
+# paraphrase that shares only some of the phrase's words still shares their
+# bigrams. Composed syllables (NFKC), not the router's jamo fold: a bigram of
+# jamo would split one syllable in half.
+_HANGUL_RUN_RE = re.compile(r"[\uac00-\ud7a3]+")
+# The request ending "-줘" (please do) closes most Korean requests and most
+# Korean triggers ("정리해줘", "찾아줘"), so a bigram ending in it says nothing
+# about which skill a message wants. The words below are its neighbours in the
+# same role -- make, help, show, tell, want, have, and-so (-해서/-아서/-어서),
+# please, this, how, our, now, today, very -- the Hangul counterparts of
+# `STOPWORDS`' filler. Both filters apply to the message and the triggers
+# alike, so containing a trigger phrase still means sharing its bigrams.
+HANGUL_REQUEST_ENDING = "줘"
+HANGUL_STOPWORDS: frozenset[str] = frozenset(
+    "만들 들어 도와 보여 알려 싶어 있어 해서 아서 어서 하고 하는 해주 주세 세요 어주 "
+    "이거 그거 저거 어떻 떻게 어떤 우리 지금 오늘 너무".split()
+)
+
+
+def hangul_terms(text: str) -> list[str]:
+    """Hangul syllable bigrams of `text`, request filler dropped, sorted and unique."""
+    terms: set[str] = set()
+    for run in _HANGUL_RUN_RE.findall(unicodedata.normalize("NFKC", text)):
+        for start in range(len(run) - 1):
+            bigram = run[start : start + 2]
+            if bigram[1] != HANGUL_REQUEST_ENDING and bigram not in HANGUL_STOPWORDS:
+                terms.add(bigram)
+    return sorted(terms)
+
+
+def hangul_trigger_terms(skill: str) -> frozenset[str]:
+    """The bigrams of `skill`'s Hangul triggers: the phrases it already carries, none added."""
+    definition = next((item for item in routable_definitions() if item.name == skill), None)
+    if definition is None:
+        return frozenset()
+    return frozenset(term for trigger in definition.triggers if not trigger.isascii() for term in hangul_terms(trigger))
+
+
+@lru_cache(maxsize=1)
+def _hangul_document_frequency() -> dict[str, int]:
+    frequency: Counter[str] = Counter()
+    for definition in routable_definitions():
+        frequency.update(hangul_trigger_terms(definition.name))
+    return dict(frequency)
+
+
+def hangul_anchor_terms(skill: str) -> frozenset[str]:
+    """`skill`'s Hangul bigrams that at most `ANCHOR_MAX_DOCUMENT_FREQUENCY` skills share.
+
+    The held-back words the ASCII anchors subtract are not subtracted here: the
+    Hangul admission asks for anchors in two words of the message, which a
+    whole phrase supplies and a lone ambiguous word does not.
+    """
+    frequency = _hangul_document_frequency()
+    return frozenset(term for term in hangul_trigger_terms(skill) if frequency[term] <= ANCHOR_MAX_DOCUMENT_FREQUENCY)
 
 
 def _field_text(definition: SkillDefinition, field: str) -> str:
@@ -267,7 +331,12 @@ __all__ = [
     "ANCHOR_MAX_DOCUMENT_FREQUENCY",
     "FIELD_WEIGHTS",
     "LEXICAL_SCORE_FLOOR",
+    "HANGUL_REQUEST_ENDING",
+    "HANGUL_STOPWORDS",
     "STOPWORDS",
+    "hangul_anchor_terms",
+    "hangul_terms",
+    "hangul_trigger_terms",
     "lexical_anchor_terms",
     "lexical_ranking",
     "lexical_terms",

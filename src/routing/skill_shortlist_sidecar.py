@@ -4,7 +4,9 @@ The per-turn hook that could use `lexical_shortlist.lexical_ranking` runs
 inside Hermes, from the plugin bundle, and the bundle cannot import `omh`
 (`tests/test_plugin_bundle_standalone.py`). So the index is written out as
 data: every skill's term weights, its anchor words, the stopwords, the
-stemmer's exception words, and the BM25 constants. The stemmer's rules are
+stemmer's exception words, and the BM25 constants -- and, for Korean, the
+syllable bigrams of every skill's existing Hangul triggers
+(`lexical_shortlist.hangul_terms`), their anchors, and the Hangul filler. The stemmer's rules are
 code, so the bundle repeats them and the parity test holds the two equal. The bundle's reader
 (`src/plugin_bundle/omh/skill_shortlist.py`) rebuilds the ranking from this
 file alone and holds no vocabulary of its own.
@@ -56,6 +58,8 @@ def skill_shortlist_projection() -> dict[str, object]:
                 "situation": _situation(definitions[name].description),
                 "terms": {key: " ".join(sorted(terms)) for key, terms in by_weight.items()},
                 "anchors": " ".join(anchors),
+                "hangul": " ".join(sorted(lexical_shortlist.hangul_trigger_terms(name))),
+                "hangul_anchors": " ".join(sorted(lexical_shortlist.hangul_anchor_terms(name))),
             }
         )
     return {
@@ -64,6 +68,7 @@ def skill_shortlist_projection() -> dict[str, object]:
         "score_floor": lexical_shortlist.LEXICAL_SCORE_FLOOR,
         "stopwords": " ".join(sorted(lexical_shortlist.STOPWORDS)),
         "stem_exceptions": " ".join(sorted(lexical_shortlist._STEM_EXCEPTIONS)),
+        "hangul_stopwords": " ".join(sorted(lexical_shortlist.HANGUL_STOPWORDS)),
         "skills": skills,
     }
 

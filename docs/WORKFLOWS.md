@@ -2394,7 +2394,7 @@ These surfaces are generated command references, not installed Hermes workflow s
 
 ### img-summary
 
-[omh] Infographic card for a report, PR, or release: image prompt cards - turn meetings, reports, PRs, issues, research, and releases into domain-aware image prompt cards.
+[omh] Infographic card for meeting notes, a report, or PR: image prompt cards - turn meetings, reports, PRs, issues, research, and releases into domain-aware image prompt cards.
 
 - Category: `materials`
 - Phase: `visual-prompt-card`
@@ -8151,7 +8151,7 @@ These surfaces are generated command references, not installed Hermes workflow s
 
 ### live-info-operator
 
-[omh] Live rates or scores a task must cite with sources: policy overlay for live lookups - add provider, freshness, units, and source-quality gates after preferring native live-data tools for ordinary weather, finance, sports, maps, and time-zone requests.
+[omh] Live rate, score, or local time a work task needs: policy overlay for live lookups - add provider, freshness, units, and source-quality gates after preferring native live-data tools for ordinary weather, finance, sports, maps, and time-zone requests.
 
 - Category: `live-info`
 - Phase: `live-info-task`
