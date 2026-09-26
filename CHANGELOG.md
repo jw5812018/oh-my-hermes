@@ -55,6 +55,7 @@ All notable changes will be documented here.
   (81.2/90.0) against 71.9% on main (72.5/71.2); 0 of 40 everyday Korean and
   0 of 20 everyday English messages loaded an OMH skill on either side (one
   run); English work stayed at 81.2% on both sides (80.0/82.5).
+
 - **Hermes turns name the skills a work request may fit.** On a turn whose
   request reads as work, the plugin adds one line naming up to three
   installed skills with the situation each serves, and the model may load
