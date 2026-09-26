@@ -15,10 +15,12 @@ repeats `omh.routing.localization.routing_terms` and
 word list comes from the sidecar. `tests/test_skill_shortlist_sidecar.py` holds the two rankings
 equal. A missing or unreadable sidecar ranks nothing, so the turn gets no line.
 
-Only ASCII letter-and-digit words are ranked; every other token is dropped.
-A message written wholly in another script therefore gets no line, while a
-mixed message (Korean with English product words, say) is ranked on its
-ASCII words and can get one.
+ASCII letter-and-digit words are ranked as above. Korean is ranked a second
+way, on the syllable bigrams of the Hangul triggers the catalog already
+carries (`omh.routing.lexical_shortlist.hangul_terms`, repeated here as
+`hangul_terms`), with its own admission floor (`hangul_skill_candidates`); a
+message the ASCII ranking admits keeps the ASCII line. Any other script is
+dropped, so a message written wholly in it gets no line.
 
 What reaches the model is one line of candidates, and only when the request
 reads as work: see `skill_candidates_for_turn`. The line names skills the
@@ -44,6 +46,8 @@ from .reference_regions import executable_routing_text
 SIDECAR_PATH = Path(__file__).resolve().parent / "tools" / "skill_shortlist.json"
 SCHEMA_VERSION = "omh_skill_shortlist_index/v1"
 
+_HANGUL_RUN_RE = re.compile(r"[\uac00-\ud7a3]+")
+_HANGUL_REQUEST_ENDING = "줘"
 # `routing_terms`' token shape: a word, optionally hyphen-joined to one more.
 _TOKEN_RE = re.compile(r"[^\W_][^\W_'-]*(?:-[^\W_][^\W_'-]*)?", re.UNICODE)
 
@@ -59,6 +63,18 @@ ADMISSION_MIN_ANCHORS = 2
 # or `doctor` at scores 5-9; a work request that names its situation in one
 # rare word ("postmortem", "churn") scores above 10.
 ADMISSION_SINGLE_ANCHOR_SCORE = 10.0
+
+# The Hangul line opens on a head skill of the Hangul ranking whose anchor
+# bigrams sit in at least this many words of the message, at this score or
+# above -- or in one word, at the single-word score. Measured on the tuning
+# sets (2026-09-26, 40 Korean work requests and 40 everyday Korean messages,
+# own words): everyday Korean reaches a skill on one word ("날씨", "같이",
+# "감사", or "다이어트" sharing two bigrams with "다이어그램") at scores below
+# 7, while a work request names its situation in two words or more ("빌드
+# 실패", "고객 피드백") and scores 6.5-36.
+HANGUL_ADMISSION_MIN_WORDS = 2
+HANGUL_ADMISSION_SCORE_FLOOR = 6.0
+HANGUL_ADMISSION_SINGLE_WORD_SCORE = 10.0
 
 # A request this short in content words is a greeting, a thanks, or a reply.
 _MIN_CONTENT_TERMS = 3
@@ -127,6 +143,8 @@ class _Skill:
     weights: dict[str, float]
     length: float
     anchors: frozenset[str]
+    hangul: frozenset[str]
+    hangul_anchors: frozenset[str]
 
 
 @dataclass(frozen=True)
@@ -139,6 +157,9 @@ class _Index:
     score_floor: float
     stopwords: frozenset[str]
     stem_exceptions: frozenset[str]
+    hangul_idf: dict[str, float]
+    hangul_average_length: float
+    hangul_stopwords: frozenset[str]
 
 
 # Cached, `None` included: a sidecar that is missing, unreadable, of another
@@ -156,6 +177,7 @@ def _index() -> _Index | None:
     try:
         skills: list[_Skill] = []
         document_frequency: dict[str, int] = {}
+        hangul_frequency: dict[str, int] = {}
         for row in payload["skills"]:
             weights: dict[str, float] = {}
             for key, terms in row["terms"].items():
@@ -166,6 +188,9 @@ def _index() -> _Index | None:
             length = float(sum(weights.values()))
             for term in weights:
                 document_frequency[term] = document_frequency.get(term, 0) + 1
+            hangul = frozenset(str(row["hangul"]).split())
+            for term in hangul:
+                hangul_frequency[term] = hangul_frequency.get(term, 0) + 1
             skills.append(
                 _Skill(
                     name=str(row["name"]),
@@ -174,12 +199,18 @@ def _index() -> _Index | None:
                     weights=weights,
                     length=length,
                     anchors=frozenset(str(row["anchors"]).split()),
+                    hangul=hangul,
+                    hangul_anchors=frozenset(str(row["hangul_anchors"]).split()),
                 )
             )
         count = len(skills)
         idf = {
             term: math.log((count - frequency + 0.5) / (frequency + 0.5) + 1.0)
             for term, frequency in document_frequency.items()
+        }
+        hangul_idf = {
+            term: math.log((count - frequency + 0.5) / (frequency + 0.5) + 1.0)
+            for term, frequency in hangul_frequency.items()
         }
         bm25 = payload["bm25"]
         return _Index(
@@ -191,6 +222,9 @@ def _index() -> _Index | None:
             score_floor=float(payload["score_floor"]),
             stopwords=frozenset(str(payload["stopwords"]).split()),
             stem_exceptions=frozenset(str(payload["stem_exceptions"]).split()),
+            hangul_idf=hangul_idf,
+            hangul_average_length=sum(len(skill.hangul) for skill in skills) / max(count, 1),
+            hangul_stopwords=frozenset(str(payload["hangul_stopwords"]).split()),
         )
     except (KeyError, TypeError, ValueError, AttributeError):
         return None
@@ -271,6 +305,91 @@ def lexical_ranking(message: str) -> tuple[tuple[str, float], ...]:
     return tuple(scored)
 
 
+def hangul_terms(text: str) -> list[str]:
+    """`omh.routing.lexical_shortlist.hangul_terms`, repeated: syllable bigrams, filler dropped."""
+    index = _index()
+    if index is None:
+        return []
+    terms: set[str] = set()
+    for run in _HANGUL_RUN_RE.findall(unicodedata.normalize("NFKC", text)):
+        for start in range(len(run) - 1):
+            bigram = run[start : start + 2]
+            if bigram[1] != _HANGUL_REQUEST_ENDING and bigram not in index.hangul_stopwords:
+                terms.add(bigram)
+    return sorted(terms)
+
+
+@lru_cache(maxsize=1024)
+def hangul_ranking(message: str) -> tuple[tuple[str, float], ...]:
+    """Every skill whose Hangul triggers share a bigram with `message`, best first.
+
+    BM25 over each skill's trigger bigrams, one count per bigram, with the
+    same constants as the ASCII ranking; ties break on the skill name.
+    """
+    index = _index()
+    if index is None:
+        return ()
+    query = set(hangul_terms(message))
+    if not query:
+        return ()
+    scored: list[tuple[str, float]] = []
+    for skill in index.skills:
+        shared = query & skill.hangul
+        if not shared:
+            continue
+        norm = index.k1 * (1.0 - index.b + index.b * len(skill.hangul) / index.hangul_average_length)
+        score = sum(index.hangul_idf[term] * (index.k1 + 1.0) / (1.0 + norm) for term in sorted(shared))
+        scored.append((skill.name, round(score, 6)))
+    scored.sort(key=lambda item: (-item[1], item[0]))
+    return tuple(scored)
+
+
+def hangul_skill_candidates(message: str) -> tuple[tuple[str, str], ...]:
+    """Up to three (skill label, situation) pairs from the Hangul ranking, or none.
+
+    Admission: a skill in the ranking's head scores at least
+    `HANGUL_ADMISSION_SCORE_FLOOR` and its anchor bigrams -- bigrams at most
+    eight skills' Hangul triggers use -- sit in two words of the message, or
+    in one at `HANGUL_ADMISSION_SINGLE_WORD_SCORE`. Two bigrams inside one
+    word are often a spelling accident ("다이어트" and "다이어그램"). Listed are the ranked skills at that score
+    with an anchor of their own, never a `_NEVER_LISTED` one.
+    """
+    index = _index()
+    if index is None:
+        return ()
+    ranking = [
+        (name, score)
+        for name, score in hangul_ranking(message)
+        if not name.startswith(_NEVER_LISTED_PREFIX) and name not in _NEVER_LISTED
+    ]
+    by_name = {skill.name: skill for skill in index.skills}
+    words = [frozenset(hangul_terms(word)) for word in message.split()]
+    terms = frozenset().union(*words) if words else frozenset()
+
+    def anchored(name: str) -> frozenset[str]:
+        return terms & by_name[name].hangul_anchors
+
+    def anchored_words(name: str) -> int:
+        return sum(1 for word in words if word & by_name[name].hangul_anchors)
+
+    admitted = any(
+        score >= HANGUL_ADMISSION_SCORE_FLOOR
+        and (
+            anchored_words(name) >= HANGUL_ADMISSION_MIN_WORDS
+            or (anchored(name) and score >= HANGUL_ADMISSION_SINGLE_WORD_SCORE)
+        )
+        for name, score in ranking[:ADMISSION_HEAD]
+    )
+    if not admitted:
+        return ()
+    listed = [
+        (by_name[name].label, by_name[name].situation)
+        for name, score in ranking
+        if score >= HANGUL_ADMISSION_SCORE_FLOOR and anchored(name)
+    ]
+    return tuple(listed[:MAX_CANDIDATES])
+
+
 def _conversational(message: str) -> bool:
     """A greeting, a thanks, a conversational request, or a one-sentence factual question."""
     if len(set(lexical_terms(message))) < _MIN_CONTENT_TERMS:
@@ -337,8 +456,12 @@ def skill_candidates_for_turn(
     """The candidates this turn's line names, or none.
 
     None for a message that names its own workflow (the route hint's direct
-    invocation), and none for small talk, a conversational request, or a
-    direct factual question.
+    invocation). The ASCII line stands down for small talk, a conversational
+    request, or a direct factual question; a message it does not admit is
+    then read for Korean (`hangul_skill_candidates`). The conversational
+    check reads ASCII words only, so it does not filter Korean: everyday
+    Korean is kept out by the Hangul score and anchor floor alone, with no
+    kind-based check for a Korean joke or venting request.
     """
     if not message.strip():
         return ()
@@ -348,9 +471,11 @@ def skill_candidates_for_turn(
     ):
         return ()
     text = executable_routing_text(message)
-    if _conversational(text):
-        return ()
-    return skill_candidates(text)
+    if not _conversational(text):
+        candidates = skill_candidates(text)
+        if candidates:
+            return candidates
+    return hangul_skill_candidates(text)
 
 
 # The last candidate set each session was shown, so a run of work turns that
@@ -406,8 +531,14 @@ __all__ = [
     "ADMISSION_HEAD",
     "ADMISSION_MIN_ANCHORS",
     "ADMISSION_SINGLE_ANCHOR_SCORE",
+    "HANGUL_ADMISSION_MIN_WORDS",
+    "HANGUL_ADMISSION_SCORE_FLOOR",
+    "HANGUL_ADMISSION_SINGLE_WORD_SCORE",
     "MAX_CANDIDATES",
     "claim_candidate_line",
+    "hangul_ranking",
+    "hangul_skill_candidates",
+    "hangul_terms",
     "reset_candidate_line_state",
     "lexical_ranking",
     "lexical_terms",

@@ -4,6 +4,25 @@ All notable changes will be documented here.
 
 ## Unreleased
 
+- **Korean work requests get a skill candidate line too.** The per-turn line
+  ranked ASCII words only, so an all-Korean request never got one. The
+  generated shortlist index now also carries the syllable bigrams of the
+  Hangul triggers the catalog already has (no trigger was added; the frozen
+  per-skill Korean counts do not move), ranked with the same BM25 constants
+  and admitted on their own floor: anchor bigrams in two words of the
+  message, or one rare word at a high score. A message the ASCII ranking
+  admits keeps its line. The awareness primer now scopes OMH skills by the
+  work signal instead of listing everyday topics (weather, prices, travel),
+  a list that also described real requests such as an exchange rate for an
+  invoice; two openings get back what Korean requests to them are about
+  (`omh-image-cards` names meeting notes, `omh-live-info` a rate or local
+  time a work task needs). Measured live (deepseek-v4.1-flash-ultrafast, one
+  Hermes turn per message, own sets written for this change): Korean work
+  requests loaded the intended skill 85.6% of the time over two runs
+  (81.2/90.0) against 71.9% on main (72.5/71.2); 0 of 40 everyday Korean and
+  0 of 20 everyday English messages loaded an OMH skill on either side (one
+  run); English work stayed at 81.2% on both sides (80.0/82.5).
+
 - **Hermes turns name the skills a work request may fit.** On a turn whose
   request reads as work, the plugin adds one line naming up to three
   installed skills with the situation each serves, and the model may load
@@ -20,7 +39,8 @@ All notable changes will be documented here.
   missed: 32.5% of an 80-message everyday set still loaded an OMH skill
   (38.8% on main), against a 10% target. Most of those loads had no
   candidate line; the model picked the skill from the host's skill index.
-  Requests written without ASCII words get no line.
+  Requests written without ASCII words got no line here; Korean ones now do
+  (see the entry above).
 - **Shortlist first: the router dispatches only on strong evidence and
   otherwise hands Hermes the shortlist.** A confident score dispatches only
   on an explicit or named invocation, the winner's own trigger phrase (unless

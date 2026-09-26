@@ -6514,10 +6514,18 @@ def awareness_primer_context() -> str:
             # skill 39-59% of the time, mostly `omh-live-info` and
             # `omh-decide`: the skill index matches the words, not whether the
             # person is asking for work.
+            #
+            # It names the work signal, not a list of everyday topics. The
+            # topic list ("weather, prices, ... need no OMH skill") also
+            # described real work requests -- an exchange rate for an invoice,
+            # a page to open and check -- and on a Korean turn, which then
+            # got no candidate line, a live model loaded no skill at all for
+            # 10 of the 14 held-out Korean requests main lost after the line
+            # landed (deepseek-v4.1-flash-ultrafast, owner's measurement).
             (
-                "OMH skills are for work the user asks for: code, projects, and team or business tasks. "
-                "Everyday questions -- weather, prices, travel, food, health, shopping, personal choices, "
-                "small talk -- need no OMH skill."
+                "OMH skills are for work the user asks you to do, in any language: code, data, documents, "
+                "research, projects, team or business tasks; load the one that fits. "
+                "Personal life and small talk need none."
             ),
             # Collision rule, previously reachable only inside the omh-routing
             # skill body — a document the model must have already chosen to

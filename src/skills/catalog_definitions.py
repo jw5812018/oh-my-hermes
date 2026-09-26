@@ -3252,7 +3252,7 @@ _DEFINITIONS = [
     ),
     SkillDefinition(
         "img-summary",
-        "Infographic card for a report, PR, or release: image prompt cards - turn meetings, reports, PRs, issues, research, and releases into domain-aware image prompt cards.",
+        "Infographic card for meeting notes, a report, or PR: image prompt cards - turn meetings, reports, PRs, issues, research, and releases into domain-aware image prompt cards.",
         (
             "img-summary",
             "img summary",

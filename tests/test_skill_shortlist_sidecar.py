@@ -245,10 +245,12 @@ class AdmissionTests(unittest.TestCase):
         self.assertEqual(awareness_route_hint(message)["hints"][0]["id"], "direct_workflow_invocation")
         self.assertEqual(_candidates(message), ())
 
-    def test_only_ascii_words_are_ranked(self) -> None:
-        # A message with no ASCII word gets no line; a mixed one is ranked on
-        # its ASCII words and can.
-        self.assertEqual(_candidates("리텐션이 떨어졌어. 온보딩에서 어디서 이탈하는지 찾아줘."), ())
+    def test_a_mixed_message_keeps_the_ascii_line(self) -> None:
+        # The Korean words here reach one anchored word ("온보딩"), which the
+        # Hangul admission does not take alone; the ASCII words do admit it.
+        korean_only = "리텐션이 떨어졌어. 온보딩에서 어디서 이탈하는지 찾아줘."
+        self.assertEqual(_candidates(korean_only), ())
+        self.assertTrue(bundle.hangul_ranking(korean_only))
         # A particle glued to an English word makes a non-ASCII token, so the
         # English words here stand apart.
         mixed = "activation, retention, churn 지표가 온보딩 직후에 나빠졌어. 원인 찾아줘"
@@ -316,6 +318,148 @@ class AdmissionTests(unittest.TestCase):
         assert index is not None
         with mock.patch.object(bundle, "_index", return_value=dataclasses.replace(index, score_floor=best + 1.0)):
             self.assertEqual(bundle.skill_candidates(message), ())
+
+
+# Korean work requests in their own words, not the catalog's: each shares a
+# phrase's worth of words with its skill's existing Hangul triggers.
+KOREAN_WORK_REQUESTS = (
+    ("배포 파이프라인이 깨졌는데 빌드 로그 보고 고쳐줘", "omh-build-failure-triage"),
+    ("고객 피드백을 모아서 버그랑 기능 요청으로 나눠줘", "omh-feedback-triage"),
+    ("로그 파일에서 오류 패턴 분석해줘", "omh-data-analysis"),
+    ("브라우저 열어서 링크 클릭하고 캡처해줘", "omh-browser"),
+    ("회의록을 보기 좋게 요약 카드로 만들어줘", "omh-image-cards"),
+    ("이거 프로젝트 기억에 추가해줘", "omh-memory-new"),
+    ("실행 중인 작업 보여줘", "omh-running-work-board"),
+    ("웹 검색해서 최신 자료 찾아줘", "omh-web-research"),
+    ("채용 면접 평가표 초안 잡아줘", "omh-people-ops"),
+)
+
+# Everyday Korean: weather, food, weekend plans, feelings, family. Several
+# share a bigram with a skill's triggers ("날씨", "같이", "감사", and
+# "다이어트" two with "다이어그램").
+KOREAN_EVERYDAY_MESSAGES = (
+    "오늘 날씨 진짜 덥다",
+    "날씨가 쌀쌀해졌네",
+    "이번 주말에 가족이랑 바다 보러 갈 건데 날씨가 좋았으면 좋겠다",
+    "점심 뭐 먹지",
+    "엄마가 해주신 김치찌개가 제일 맛있어",
+    "다이어트 중인데 야식이 땡겨",
+    "주말에 등산 갈 건데 같이 갈래?",
+    "요즘 너무 지쳐서 아무것도 하기 싫어",
+    "스트레스 받아",
+    "아빠 생신이 다가와",
+    "감사합니다",
+    "동생 결혼식에서 사진 공유해줄게",
+)
+
+
+class HangulSidecarTests(unittest.TestCase):
+    def test_hangul_terms_match_the_core_tokenizer(self) -> None:
+        for message in (*PARITY_MESSAGES, *(m for m, _ in KOREAN_WORK_REQUESTS), *KOREAN_EVERYDAY_MESSAGES):
+            with self.subTest(message=message):
+                self.assertEqual(bundle.hangul_terms(message), core.hangul_terms(message))
+
+    def test_every_skill_carries_exactly_its_trigger_bigrams(self) -> None:
+        index = bundle._index()
+        assert index is not None
+        for skill in index.skills:
+            with self.subTest(skill=skill.name):
+                self.assertEqual(skill.hangul, core.hangul_trigger_terms(skill.name))
+                self.assertEqual(skill.hangul_anchors, core.hangul_anchor_terms(skill.name))
+                self.assertLessEqual(skill.hangul_anchors, skill.hangul)
+
+    def test_the_hangul_field_is_read_from_triggers_only(self) -> None:
+        # The index adds no Korean vocabulary: a skill without a Hangul
+        # trigger has no Hangul terms, and every term is a trigger's bigram.
+        index = bundle._index()
+        assert index is not None
+        definitions = {definition.name: definition for definition in routable_definitions()}
+        for skill in index.skills:
+            hangul_triggers = [t for t in definitions[skill.name].triggers if not t.isascii()]
+            with self.subTest(skill=skill.name):
+                if not hangul_triggers:
+                    self.assertEqual(skill.hangul, frozenset())
+                for term in skill.hangul:
+                    self.assertTrue(any(term in trigger for trigger in hangul_triggers), term)
+
+    def test_bigrams_stay_inside_a_word_and_drop_request_filler(self) -> None:
+        self.assertEqual(core.hangul_terms("코드 리뷰해줘"), ["리뷰", "뷰해", "코드"])
+        self.assertEqual(core.hangul_terms("코드리뷰"), ["드리", "리뷰", "코드"])
+        self.assertEqual(core.hangul_terms("만들어줘 보여줘"), [])
+        # Syllables compose first, so decomposed input meets composed triggers.
+        import unicodedata
+
+        self.assertEqual(core.hangul_terms(unicodedata.normalize("NFD", "빌드 실패")), ["빌드", "실패"])
+
+    def test_containing_a_trigger_phrase_contains_its_bigrams(self) -> None:
+        for definition in routable_definitions():
+            for trigger in definition.triggers:
+                if trigger.isascii():
+                    continue
+                message = f"어제부터 {trigger}를 봐야 해"
+                with self.subTest(trigger=trigger):
+                    self.assertLessEqual(set(core.hangul_terms(trigger)), set(core.hangul_terms(message)))
+
+
+class HangulAdmissionTests(unittest.TestCase):
+    def test_a_korean_work_request_names_its_skill(self) -> None:
+        for message, skill in KOREAN_WORK_REQUESTS:
+            with self.subTest(message=message):
+                labels = [label for label, _situation in _candidates(message)]
+                self.assertIn(skill, labels)
+                self.assertLessEqual(len(labels), bundle.MAX_CANDIDATES)
+
+    def test_everyday_korean_gets_no_line(self) -> None:
+        for message in KOREAN_EVERYDAY_MESSAGES:
+            with self.subTest(message=message):
+                self.assertEqual(_candidates(message), ())
+
+    def test_one_word_is_not_enough_below_the_single_word_score(self) -> None:
+        # "다이어트" shares two anchor bigrams with omh-codebase-uml's
+        # "다이어그램", in one word, above the floor and below the single-word
+        # score.
+        message = "다이어트 중인데 야식이 땡겨"
+        name, score = bundle.hangul_ranking(message)[0]
+        self.assertEqual(name, "codebase-uml")
+        self.assertGreaterEqual(score, bundle.HANGUL_ADMISSION_SCORE_FLOOR)
+        self.assertLess(score, bundle.HANGUL_ADMISSION_SINGLE_WORD_SCORE)
+        with mock.patch.object(bundle, "HANGUL_ADMISSION_MIN_WORDS", 1):
+            self.assertIn("omh-codebase-uml", [label for label, _ in bundle.hangul_skill_candidates(message)])
+
+    def test_one_rare_word_at_the_single_word_score_admits(self) -> None:
+        message = "포스트모템 써줘"
+        name, score = bundle.hangul_ranking(message)[0]
+        self.assertEqual(name, "reliability-review")
+        self.assertGreaterEqual(score, bundle.HANGUL_ADMISSION_SINGLE_WORD_SCORE)
+        self.assertIn("omh-reliability-review", [label for label, _ in _candidates(message)])
+        with mock.patch.object(bundle, "HANGUL_ADMISSION_SINGLE_WORD_SCORE", score + 1.0):
+            self.assertEqual(bundle.hangul_skill_candidates(message), ())
+
+    def test_the_hangul_floor_holds_back_two_common_words(self) -> None:
+        # Two anchored words, one family message: only the floor keeps it out.
+        message = "동생 결혼식에서 사진 공유해줄게"
+        self.assertLess(bundle.hangul_ranking(message)[0][1], bundle.HANGUL_ADMISSION_SCORE_FLOOR)
+        with mock.patch.object(bundle, "HANGUL_ADMISSION_SCORE_FLOOR", 3.0):
+            self.assertTrue(bundle.hangul_skill_candidates(message))
+        self.assertEqual(_candidates(message), ())
+
+    def test_the_hangul_floor_holds_back_a_two_word_match(self) -> None:
+        message = KOREAN_WORK_REQUESTS[2][0]
+        best = bundle.hangul_ranking(message)[0][1]
+        with mock.patch.object(bundle, "HANGUL_ADMISSION_SCORE_FLOOR", best + 1.0):
+            self.assertEqual(bundle.hangul_skill_candidates(message), ())
+        self.assertTrue(bundle.hangul_skill_candidates(message))
+
+    def test_english_turns_never_reach_the_hangul_ranking(self) -> None:
+        for message in (*EVERYDAY_MESSAGES, *SMALL_TALK_AND_FACTS, *(m for m, _ in WORK_REQUESTS)):
+            with self.subTest(message=message):
+                self.assertEqual(bundle.hangul_ranking(message), ())
+
+    def test_a_named_workflow_gets_no_alternatives_in_korean_either(self) -> None:
+        message = "use omh plan: 배포 파이프라인 빌드 실패 고쳐줘"
+        self.assertEqual(awareness_route_hint(message)["hints"][0]["id"], "direct_workflow_invocation")
+        self.assertTrue(bundle.hangul_skill_candidates(message))
+        self.assertEqual(_candidates(message), ())
 
 
 class LineTests(unittest.TestCase):
