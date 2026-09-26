@@ -4,6 +4,27 @@ All notable changes will be documented here.
 
 ## Unreleased
 
+- **A routing guard dispatches on its own only when its measured record is
+  at least 3 right per wrong, unless demoting it breaks a quality floor.**
+  `GUARD_DISPATCH_TRUST` now reads each guard's record as the dispatched
+  winner on the tuning set. Eight measured guards under 3:1 become
+  context-only (browser, coding-handoff status, workspace file, deliverable
+  package, scheduled ops, voice, research brief, ops observability). Nine
+  more under 3:1 stay trusted because demoting them breaks a product quality
+  floor (routing accuracy, known-lanes baseline, grounded score, route-hint
+  alignment, chat-card and common-request coverage, the ulw-equivalence
+  digests) or removes no measured wrong dispatch; each reason names which.
+  Guards never measured keep their shape label. No predicate or vocabulary
+  changed; a context-only guard still boosts and reorders the field, and its
+  winner asks with itself first on the shortlist. On the tuning set
+  (in-sample, English, n=390) wrong dispatch falls from 7.9% to 5.9%; the
+  intended skill is dispatched or first on the shortlist at the same 37.7%,
+  and on the shortlist at 71.3% (69.7% before). The owner's held-out set was
+  not read for this change. Canonical coding requests keep dispatching to
+  `ultrawork`. 7 intervention cases and 18 unit-test rows are re-pinned to a
+  clarify, each with the intended skill first. `browser-operator` keeps
+  natural reach through a new case on its own phrase ("run a playwright task
+  ..."), paired with a negative control.
 - **The awareness section registers once per plugin manager, without a warning
   on every session.** `register()` runs on both the plugin loader and the
   memory-provider loader, so the `omh.awareness` system-prompt section was

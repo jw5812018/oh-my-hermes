@@ -103,8 +103,20 @@ class RecurringIntentPreparationTests(unittest.TestCase):
                 self.assertNotEqual(route["selected_harness"], "scheduled-ops-blueprint")
 
     def test_the_chat_card_offers_to_save_the_paused_intent_and_names_activation(self) -> None:
-        payload = build_chat_interaction_payload(
+        # Re-pinned 2026-09-26: "every weekday morning" says no phrase of
+        # automation-blueprint's own, and the scheduled-ops guard that carried
+        # it measured 0 right / 1 wrong on the tuning set, under 3:1, so it
+        # asks with the scheduler first. The card is pinned on the sentence
+        # that says the skill's own phrase ("every morning").
+        asked = build_chat_interaction_payload(
             "every weekday morning check release risk and tell me on Slack only if something changed",
+            source="discord",
+        )
+        self.assertEqual(asked["route"]["action"], "clarify")
+        self.assertEqual(route_owner(asked["route"], allow_clarify=True), "automation-blueprint")
+
+        payload = build_chat_interaction_payload(
+            "every morning check release risk and tell me on Slack only if something changed",
             source="discord",
         )
 

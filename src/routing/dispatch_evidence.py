@@ -26,9 +26,9 @@ Strong evidence:
   another scored skill said as many phrases of its own and the winner's own
   evidence does not lead it by `PHRASE_LEAD` -- two even phrases are a
   choice, not a decision;
-- a trusted intent guard: one that matches an imperative plus its object, an
-  explicit skill surface, or a cadence plus an action. The table is
-  `GUARD_DISPATCH_TRUST` in `routing/policy.py`;
+- a trusted intent guard: one that matches an intent shape and, where it was
+  measured deciding dispatches, was right at least three times for every
+  wrong. The table is `GUARD_DISPATCH_TRUST` in `routing/policy.py`;
 - non-ASCII input, which the Routing Language Policy leaves to the frozen
   trigger tables and to model selection rather than to an English-word gate.
 
