@@ -149,6 +149,104 @@ class RegistrationTests(SectionTestCase):
         self.assertIn(awareness_primer_context(), self.first_turn_context("s-rejected"))
 
 
+class _Manager:
+    """Hermes' per-HERMES_HOME plugin manager: the section registry and nothing else."""
+
+    def __init__(self) -> None:
+        self._system_prompt_sections: dict[str, object] = {}
+
+
+class _ManagedSectionCtx(_SectionCtx):
+    """A plugin-loader context: registers into its manager, as the host does."""
+
+    def __init__(self, manager: _Manager) -> None:
+        super().__init__()
+        self._manager = manager
+
+    def register_system_prompt_section(self, id, content, **kwargs):
+        if id in self._manager._system_prompt_sections:
+            raise ValueError(f"system prompt section {id!r} is already registered by plugin 'omh'")
+        self._manager._system_prompt_sections[id] = content
+        super().register_system_prompt_section(id, content, **kwargs)
+
+
+class _CollectorCtx(_Ctx):
+    """The memory-provider loader's collector: no `_manager` of its own; it
+    forwards to a real context built by `_plugin_context()`."""
+
+    def __init__(self, inner: object) -> None:
+        super().__init__()
+        self._inner = inner
+        self.forwarded: list[str] = []
+
+    def _plugin_context(self):
+        if isinstance(self._inner, BaseException):
+            raise self._inner
+        return self._inner
+
+    def register_system_prompt_section(self, id, content, **kwargs):
+        self.forwarded.append(id)
+        self._plugin_context().register_system_prompt_section(id, content, **kwargs)
+
+
+class SingleRegistrationTests(SectionTestCase):
+    """`register()` runs on both the plugin loader and the memory-provider
+    loader; the section must land once per manager, without a second attempt
+    that Hermes' collector logs as a warning on every session init."""
+
+    def test_the_second_loader_pass_skips_a_section_its_manager_already_holds(self) -> None:
+        manager = _Manager()
+        plugin_ctx = _ManagedSectionCtx(manager)
+        register(plugin_ctx)
+        collector = _CollectorCtx(_ManagedSectionCtx(manager))
+        register(collector)
+        self.assertEqual(len(plugin_ctx.sections), 1)
+        self.assertEqual(collector.forwarded, [])
+        self.assertEqual(list(manager._system_prompt_sections), ["omh.awareness"])
+
+    def test_a_second_pass_on_the_same_plugin_context_also_skips(self) -> None:
+        manager = _Manager()
+        ctx = _ManagedSectionCtx(manager)
+        register(ctx)
+        register(ctx)
+        self.assertEqual(len(ctx.sections), 1)
+
+    def test_another_home_manager_still_registers_its_own_section(self) -> None:
+        first, second = _Manager(), _Manager()
+        register(_ManagedSectionCtx(first))
+        other = _ManagedSectionCtx(second)
+        register(other)
+        self.assertEqual(len(other.sections), 1)
+        self.assertIn("omh.awareness", second._system_prompt_sections)
+
+    def test_the_collector_path_registers_when_its_manager_lacks_the_section(self) -> None:
+        manager = _Manager()
+        collector = _CollectorCtx(_ManagedSectionCtx(manager))
+        register(collector)
+        self.assertEqual(collector.forwarded, ["omh.awareness"])
+        self.assertIn("omh.awareness", manager._system_prompt_sections)
+
+    def test_a_context_of_unknown_shape_registers_as_before(self) -> None:
+        ctx = _SectionCtx()
+        register(ctx)
+        self.assertEqual(len(ctx.sections), 1)
+
+    def test_a_collector_whose_context_cannot_be_built_answers_not_registered(self) -> None:
+        from omh.plugin_bundle.omh import _section_already_registered
+
+        for error in (ImportError("no hermes_cli.plugins"), AttributeError("shape"), RuntimeError("other")):
+            with self.subTest(error=type(error).__name__):
+                self.assertFalse(_section_already_registered(_CollectorCtx(error), "omh.awareness"))
+
+    def test_a_context_that_cannot_be_built_does_not_abort_register(self) -> None:
+        # The check answers "not registered" and the registration proceeds;
+        # the forward then fails the same way, which Hermes' collector logs.
+        collector = _CollectorCtx(RuntimeError("unexpected"))
+        with self.assertRaises(RuntimeError):
+            register(collector)
+        self.assertEqual(collector.forwarded, ["omh.awareness"])
+
+
 class FrozenContentTests(SectionTestCase):
     def test_the_rendered_text_carries_no_session_or_turn_data(self) -> None:
         a = llm_hooks.awareness_system_prompt_section(_session_info("session-alpha-123"))

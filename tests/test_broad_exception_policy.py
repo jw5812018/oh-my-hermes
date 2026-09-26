@@ -108,6 +108,16 @@ CLASSIFIED_SITES: tuple[ClassifiedSite, ...] = (
         "and return no observation; they never fabricate a successful effect.",
     ),
     ClassifiedSite(
+        "src/plugin_bundle/omh/__init__.py",
+        "_section_already_registered",
+        INTENTIONAL,
+        "A pre-check before registering the awareness section: building the memory-provider "
+        "collector's plugin context must not abort `register()`, which would fail the whole "
+        "plugin load. On failure the check answers 'not registered' and the registration "
+        "proceeds; the collector's forward builds the same context, fails the same way, and "
+        "Hermes logs it on its warning channel, so the failure is surfaced, not relabeled.",
+    ),
+    ClassifiedSite(
         "src/plugin_bundle/omh/memory_provider.py",
         "_say",
         INTENTIONAL,
@@ -440,8 +450,8 @@ CLASSIFIED_SITES: tuple[ClassifiedSite, ...] = (
 # function. `_write_candidate_batch`, `_is_catalog_question`, `pre_llm_call`,
 # `_resume_unlocked`, and `_execute_cell` each hold two handlers, so the handler
 # count is five above the anchor count.
-EXPECTED_HANDLER_COUNT = 46
-EXPECTED_ANCHOR_COUNT = 41
+EXPECTED_HANDLER_COUNT = 47
+EXPECTED_ANCHOR_COUNT = 42
 
 
 class DerivedSite(NamedTuple):
